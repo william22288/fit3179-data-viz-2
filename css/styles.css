@@ -1,0 +1,12 @@
+body {
+  margin: 0;
+  height: 100vh;           
+  display: flex;            
+  justify-content: center;  
+  align-items: center;      
+}
+
+#symbol_map {
+  max-width: 90%;   
+  max-height: 90%;  
+}
