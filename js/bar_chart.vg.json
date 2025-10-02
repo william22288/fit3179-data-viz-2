@@ -1,0 +1,44 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Comparison of maximum API among selected stations in 2020",
+  "data": {
+    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Yearly_Max_Min_API_across_Different_Stations.csv"
+  },
+  "transform": [
+    {"filter": "datum.Year == 2020"},
+    {
+      "filter": "indexof(['Bandaraya Melaka, Melaka', 'Cheras, Kuala Lumpur', 'Kota Kinabalu, Sabah', 'Kuching, Sarawak', 'Larkin, Johor Bahru', 'Miri, Sarawak', 'Seberang Jaya, Pulau Pinang'], trim(datum['Selected Stations'])) >= 0"
+    }
+  ],
+  "mark": "bar",
+  "width": 600,
+  "height": 400,
+  "encoding": {
+    "x": {
+      "field": "Selected Stations",
+      "type": "nominal",
+      "axis": {"labelAngle": -20, "title": "Station"}
+    },
+    "y": {
+      "field": "Maximum",
+      "type": "quantitative",
+      "title": "Air Pollution Index (API)"
+    },
+    "tooltip": [
+      {"field": "Selected Stations","title":"Station", "type": "nominal"},
+      {"field": "Maximum", "title":"Maximum API", "type": "quantitative"},
+      {"field": "Minimum", "title":"Minimum API", "type": "quantitative"}
+    ],
+    "color": {
+      "field": "Selected Stations",
+      "type": "nominal",
+      "scale": {"scheme": "set2"},
+      "legend": null
+    }
+  },
+  "title": {
+    "text": "Maximum Air Pollution Index (API) Across Selected Stations in 2020",
+    "anchor": "middle",
+    "fontSize": 16
+  }
+}
