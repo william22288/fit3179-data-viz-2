@@ -1,0 +1,81 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Pie chart showing percentage of API stations across Peninsular Malaysia, Sabah, and Sarawak",
+  "width": 500,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/main/data/Stations_Information.csv"
+  },
+  "transform": [
+    {
+      "calculate": "datum.state == 'Sabah' || datum.state == 'W.P. Labuan' ? 'Sabah' : datum.state == 'Sarawak' ? 'Sarawak' : 'Peninsular Malaysia'",
+      "as": "Region"
+    },
+    {
+      "aggregate": [{"op": "count", "as": "StationCount"}],
+      "groupby": ["Region"]
+    },
+    {
+      "joinaggregate": [{"op": "sum", "field": "StationCount", "as": "Total"}]
+    },
+    {
+      "calculate": "datum.StationCount / datum.Total",
+      "as": "Percentage"
+    },
+    {
+      "stack": "StationCount",
+      "groupby": [],
+      "sort": [{"field": "Region", "order": "ascending"}],
+      "as": ["start", "end"]
+    },
+    {
+      "calculate": "(datum.start + datum.end) / 2",
+      "as": "midpoint"
+    },
+    {
+      "calculate": "datum.Region + '\\n' + format(datum.Percentage, '.1%')",
+      "as": "label"
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "arc", "outerRadius": 180, "stroke": "black"},
+      "encoding": {
+        "theta": {"field": "StationCount", "type": "quantitative"},
+        "color": {
+          "field": "Region",
+          "type": "nominal",
+          "scale": {
+            "range": ["#999999", "#E69F00", "#56B4E9"] 
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {"field": "Region", "title": "Region"},
+          {"field": "StationCount", "title": "Number of Stations"},
+          {
+            "field": "Percentage",
+            "type": "quantitative",
+            "format": ".1%",
+            "title": "Percentage"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "radius": 100, "fill": "black", "fontSize": 14, "fontWeight": "bold"},
+      "encoding": {
+        "theta": {"field": "midpoint", "type": "quantitative", "stack": null},
+        "baseline": {"value": "middle"},
+        "text": {"field": "label", "type": "nominal"}
+      }
+    }
+  ],
+  "title": {
+    "text": "Percentage Distribution of API Monitoring Stations across Malaysia",
+    "anchor": "middle",
+    "fontSize": 16,
+    "offset": 25
+  },
+  "view": {"stroke": null}
+}

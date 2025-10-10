@@ -1,0 +1,171 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Interactive line chart showing API across stations with three station selectors (optional).",
+  "width": 800,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2017_to_2022_Daily_API_across_Different_Stations(long).csv"
+  },
+  "params": [
+    {
+      "name": "Station1",
+      "value": "Alor Gajah",
+      "bind": {
+        "input": "select",
+        "options": [
+          "None",
+          "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+          "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
+          "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
+          "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
+          "Klang", "Kluang", "Kota Bharu", "Kota Kinabalu", "Kota Tinggi",
+          "Kuala Selangor", "Kuala Terengganu", "Kuching", "Kulim", "Labuan",
+          "Langkawi", "Larkin", "Limbang", "Minden", "Miri", "Muar", "Mukah",
+          "Nilai", "Paka", "Pasir Gudang", "Pegoh Ipoh", "Pengerang",
+          "Petaling Jaya", "Port Dickson", "Putrajaya", "Rompin", "Samalaju",
+          "Samarahan", "Sandakan", "Sarikei", "Seberang Jaya", "Seberang Perai",
+          "Segamat", "Seremban", "Seri Manjung", "Shah Alam", "Sibu",
+          "Sri Aman", "Sungai Petani", "Taiping", "Tanah Merah", "Tangkak",
+          "Tanjung Malim", "Tasek Ipoh", "Tawau", "Temerloh"
+        ],
+        "name": "Station 1: "
+      }
+    },
+    {
+      "name": "Station2",
+      "value": "Cheras",
+      "bind": {
+        "input": "select",
+        "options": [
+          "None",
+          "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+          "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
+          "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
+          "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
+          "Klang", "Kluang", "Kota Bharu", "Kota Kinabalu", "Kota Tinggi",
+          "Kuala Selangor", "Kuala Terengganu", "Kuching", "Kulim", "Labuan",
+          "Langkawi", "Larkin", "Limbang", "Minden", "Miri", "Muar", "Mukah",
+          "Nilai", "Paka", "Pasir Gudang", "Pegoh Ipoh", "Pengerang",
+          "Petaling Jaya", "Port Dickson", "Putrajaya", "Rompin", "Samalaju",
+          "Samarahan", "Sandakan", "Sarikei", "Seberang Jaya", "Seberang Perai",
+          "Segamat", "Seremban", "Seri Manjung", "Shah Alam", "Sibu",
+          "Sri Aman", "Sungai Petani", "Taiping", "Tanah Merah", "Tangkak",
+          "Tanjung Malim", "Tasek Ipoh", "Tawau", "Temerloh"
+        ],
+        "name": "Station 2: "
+      }
+    },
+    {
+      "name": "Station3",
+      "value": "Kota Kinabalu",
+      "bind": {
+        "input": "select",
+        "options": [
+          "None",
+          "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+          "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
+          "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
+          "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
+          "Klang", "Kluang", "Kota Bharu", "Kota Kinabalu", "Kota Tinggi",
+          "Kuala Selangor", "Kuala Terengganu", "Kuching", "Kulim", "Labuan",
+          "Langkawi", "Larkin", "Limbang", "Minden", "Miri", "Muar", "Mukah",
+          "Nilai", "Paka", "Pasir Gudang", "Pegoh Ipoh", "Pengerang",
+          "Petaling Jaya", "Port Dickson", "Putrajaya", "Rompin", "Samalaju",
+          "Samarahan", "Sandakan", "Sarikei", "Seberang Jaya", "Seberang Perai",
+          "Segamat", "Seremban", "Seri Manjung", "Shah Alam", "Sibu",
+          "Sri Aman", "Sungai Petani", "Taiping", "Tanah Merah", "Tangkak",
+          "Tanjung Malim", "Tasek Ipoh", "Tawau", "Temerloh"
+        ],
+        "name": "Station 3: "
+      }
+    },
+    {
+      "name": "MinYear",
+      "value": 2017,
+      "bind": {
+        "input": "range",
+        "min": 2017,
+        "max": 2021,
+        "step": 1,
+        "name": "Year to Begin"
+      }
+    },
+    {
+      "name": "MaxYear",
+      "value": 2022,
+      "bind": {
+        "input": "range",
+        "min": 2018,
+        "max": 2022,
+        "step": 1,
+        "name": "Year to End"
+      }
+    }
+  ],
+  "transform": [
+    {
+      "fold": [
+        "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+        "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
+        "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
+        "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
+        "Klang", "Kluang", "Kota Bharu", "Kota Kinabalu", "Kota Tinggi",
+        "Kuala Selangor", "Kuala Terengganu", "Kuching", "Kulim", "Labuan",
+        "Langkawi", "Larkin", "Limbang", "Minden", "Miri", "Muar", "Mukah",
+        "Nilai", "Paka", "Pasir Gudang", "Pegoh Ipoh", "Pengerang",
+        "Petaling Jaya", "Port Dickson", "Putrajaya", "Rompin", "Samalaju",
+        "Samarahan", "Sandakan", "Sarikei", "Seberang Jaya", "Seberang Perai",
+        "Segamat", "Seremban", "Seri Manjung", "Shah Alam", "Sibu",
+        "Sri Aman", "Sungai Petani", "Taiping", "Tanah Merah", "Tangkak",
+        "Tanjung Malim", "Tasek Ipoh", "Tawau", "Temerloh"
+      ],
+      "as": ["Region", "API"]
+    },
+    {"calculate": "toNumber(datum.API)", "as": "API"},
+    {"calculate": "toDate(datum.Time)", "as": "Date"},
+    {"calculate": "year(datum.Date)", "as": "Year"},
+    {
+      "filter": "(Station1 != 'None' && datum.Region == Station1) || (Station2 != 'None' && datum.Region == Station2) || (Station3 != 'None' && datum.Region == Station3)"
+    },
+    {"filter": "datum.Year >= MinYear && datum.Year <= MaxYear"}
+  ],
+  "mark": {"type": "line", "point": false},
+  "encoding": {
+    "x": {"field": "Date", "type": "temporal", "title": "Date", "axis": {"grid": false}},
+    "y": {
+      "field": "API",
+      "type": "quantitative",
+      "title": "Air Pollution Index (API)",
+      "scale": {"zero": false}
+    },
+    "color": {
+      "field": "Region",
+      "type": "nominal",
+      "title": "Stations",
+      "scale": {"scheme": "tableau10"},
+  "legend": {
+    "labelLimit": 50000,    
+    "orient": "bottom",    
+    "titleLimit": 50000,
+    "padding": 20, 
+    "direction": "vertical"
+       }
+    },
+    "tooltip": [
+      {"field": "Region", "title": "Station"},
+      {
+    "field": "Date",
+    "type": "temporal",
+    "title": "Date",
+    "format": "%B %d, %Y"
+  },
+      {"field": "API", "type": "quantitative"}
+    ]
+  },
+  "title": "Daily Air Pollution Index (API) Across up to 3 Selected Stations from 2017 to 2022",
+  "config": {
+    "line": {"point": false},
+    "view": {"stroke": "transparent"},
+    "padding": {"top": 30} 
+  }
+}

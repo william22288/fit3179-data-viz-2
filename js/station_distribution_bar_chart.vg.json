@@ -1,0 +1,57 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Horizontal bar chart showing percentage of API stations by state",
+  "width": 700,
+  "height": 420,
+  "data": {
+    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/main/data/Stations_Information.csv"
+  },
+  "transform": [
+    {
+      "aggregate": [{"op": "count", "as": "StationCount"}],
+      "groupby": ["state"]
+    },
+    {
+      "joinaggregate": [{"op": "sum", "field": "StationCount", "as": "Total"}]
+    },
+    {
+      "calculate": "datum.StationCount / datum.Total",
+      "as": "Percentage"
+    }
+  ],
+  "mark": {"type": "bar", "color":"grey"}, 
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "title": "State",
+      "sort": "-x"
+    },
+    "x": {
+      "field": "Percentage",
+      "type": "quantitative",
+      "title": "Percentage of Stations",
+      "axis": {"format": ".1%"}
+    },
+    "tooltip": [
+      {"field": "state", "title": "State"},
+      {"field": "StationCount", "title": "Number of Stations"},
+      {
+        "field": "Percentage",
+        "type": "quantitative",
+        "format": ".1%",
+        "title": "Percentage"
+      }
+    ]
+  },
+  "title": {
+  "text": [
+    "Percentage Distribution of Air Pollution Index (API) Monitoring Stations ",
+    "by State and Federal Territory in Malaysia"
+  ],
+  "anchor": "middle",
+  "fontSize": 16,
+  "offset": 25
+},
+  "view": {"stroke": null}
+}
