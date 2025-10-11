@@ -1,155 +1,199 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": {
-    "text": "Air Pollution Index (API) in Malaysia on 7 May 2022",
+    "text": "Monthly Average Air Pollution Index (API) in Malaysia (2020–2022)",
     "anchor": "middle",
-    "fontSize": 24,
+    "fontSize": 20,
     "fontWeight": "bold",
     "color": "#000",
-    "font": "serif"},
-  "width": 800,
-  "height": 500,
-  "projection": {
-    "type": "mercator",
-    "center": [110, 4],
-    "scale": 2000
+    "font": "serif"
   },
-  "layer": [
+  "width": 900,
+  "height": 600,
+  "projection": {"type": "mercator", "center": [110, 4], "scale": 2000},
+
+  "params": [
     {
-      "data": {"graticule": {"step": [2, 2]}},
-      "mark": {
-        "type": "geoshape",
-        "stroke": "#cccccc",
-        "strokeWidth": 0.4,
-        "strokeDash": [2, 2]
+      "name": "selected_month",
+      "value": "2022-05",
+      "bind": {
+        "input": "select",
+        "options": [
+          "2020-01","2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12",
+          "2021-01","2021-02","2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12",
+          "2022-01","2022-02","2022-03","2022-04","2022-05"
+        ],
+        "labels": [
+        "January 2020","February 2020","March 2020","April 2020","May 2020","June 2020","July 2020","August 2020","September 2020","October 2020","November 2020","December 2020",
+        "January 2021","February 2021","March 2021","April 2021","May 2021","June 2021","July 2021","August 2021","September 2021","October 2021","November 2021","December 2021",
+        "January 2022","February 2022","March 2022","April 2022","May 2022"
+      ],
+        "name": "Select Month: "
       }
+    },
+    {
+      "name": "selected_year",
+      "expr": "split(selected_month, '-')[0]"
+    }
+  ],
+
+  "layer": [
+    
+    {
+    "data": {
+      "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+      "format": {"type": "topojson", "feature": "oceans"}
+    },
+    "mark": {"type": "geoshape", "fill": "#cce5ff", "stroke": "transparent"}
+  },
+  {
+      "data": {"graticule": {"step": [2, 2]}},
+      "mark": {"type": "geoshape", "stroke": "#cccccc", "strokeWidth": 0.6, "strokeDash": [2, 2]}
     },
     {
       "data": {
         "url": "https://raw.githubusercontent.com/william22288/FIT3179_Homework_Week9/refs/heads/main/js/malaysia.geojson"
       },
-      "mark": {
-        "type": "geoshape",
-        "fill": "transparent",
-        "stroke": "#00796b",
-        "strokeWidth": 0.7
-      }
+      "mark": {"type": "geoshape", "fill": "transparent", "stroke": "#00796b", "strokeWidth": 0.7}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/apisit/thailand.json/refs/heads/master/thailand.json"
+      },
+      "mark": {"type": "geoshape", "fill": "transparent", "stroke": "#00796b", "strokeWidth": 0.7}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/superpikar/indonesia-geojson/refs/heads/master/indonesia.geojson"
+      },
+      "mark": {"type": "geoshape", "fill": "transparent", "stroke": "#00796b", "strokeWidth": 0.7}
     },
     
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/william22288/FIT3179_Homework_Week9/refs/heads/main/data/APIMS-transformed(cleaned%20kaggle%20dataset).csv"
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2020_to_2022_Different_Stations_daily_api.csv"
       },
       "transform": [
+        {
+          "fold": [
+            "Alor Gajah","Alor Setar","Balik Pulau","Balok Baru Kuantan","Bandaraya Melaka","Banting","Batu Muda","Batu Pahat","Besut","Bintulu",
+            "Bukit Rambai","Cheras","Indera Mahkota Kuantan","Jerantut","Kangar","Kapit","Kemaman","Keningau","Kimanis","Klang","Kluang",
+            "Kota Bharu","Kota Kinabalu","Kota Tinggi","Kuala Selangor","Kuala Terengganu","Kuching","Kulim","Labuan","Langkawi","Larkin",
+            "Limbang","Minden","Miri","Muar","Mukah","Nilai","Paka","Pasir Gudang","Pegoh Ipoh","Pengerang","Petaling Jaya","Port Dickson",
+            "Putrajaya","Rompin","Samalaju","Samarahan","Sandakan","Sarikei","Seberang Jaya","Seberang Perai","Segamat","Seremban",
+            "Seri Manjung","Shah Alam","Sibu","Sri Aman","Sungai Petani","Taiping","Tanah Merah","Tangkak","Tanjung Malim","Tasek Ipoh",
+            "Tawau","Temerloh"
+          ],
+          "as": ["Location", "API"]
+        },
+        {"calculate": "substring(datum.Time, 0, 7)", "as": "YearMonth"},
+        {"filter": "datum.YearMonth == selected_month"},
+        {"aggregate": [{"op": "mean", "field": "API", "as": "AvgAPI"}], "groupby": ["Location"]},
         {
           "lookup": "Location",
           "from": {
             "data": {
               "values": [
-                {"Location": "Alor Gajah", "Population": 219387},
-                {"Location": "Alor Setar", "Population": 423912},
-                {"Location": "Balik Pulau", "Population": 201254},
-                {"Location": "Balok Baru Kuantan", "Population": 149872},
-                {"Location": "Bandaraya Melaka", "Population": 598763},
-                {"Location": "Banting", "Population": 101235},
-                {"Location": "Batu Muda", "Population": 802134},
-                {"Location": "Batu Pahat", "Population": 348921},
-                {"Location": "Besut", "Population": 139674},
-                {"Location": "Bintulu", "Population": 231548},
-                {"Location": "Bukit Rambai", "Population": 50789},
-                {"Location": "Cheras", "Population": 699832},
-                {"Location": "Indera Mahkota Kuantan", "Population": 121453},
-                {"Location": "Jerantut", "Population": 90832},
-                {"Location": "Kangar", "Population": 49823},
-                {"Location": "Kapit", "Population": 70654},
-                {"Location": "Kemaman", "Population": 202341},
-                {"Location": "Keningau", "Population": 179432},
-                {"Location": "Kimanis", "Population": 50412},
-                {"Location": "Klang", "Population": 798234},
-                {"Location": "Kluang", "Population": 249871},
-                {"Location": "Kota Bharu", "Population": 502138},
-                {"Location": "Kota Kinabalu", "Population": 501289},
-                {"Location": "Kota Tinggi", "Population": 201476},
-                {"Location": "Kuala Selangor", "Population": 99823},
-                {"Location": "Kuala Terengganu", "Population": 398452},
-                {"Location": "Kuching", "Population": 698231},
-                {"Location": "Kulim", "Population": 302145},
-                {"Location": "Labuan", "Population": 103254},
-                {"Location": "Langkawi", "Population": 118923},
-                {"Location": "Larkin", "Population": 198732},
-                {"Location": "Limbang", "Population": 40234},
-                {"Location": "Minden", "Population": 148932},
-                {"Location": "Miri", "Population": 351298},
-                {"Location": "Muar", "Population": 179823},
-                {"Location": "Mukah", "Population": 50321},
-                {"Location": "Nilai", "Population": 251087},
-                {"Location": "Paka", "Population": 80123},
-                {"Location": "Pasir Gudang", "Population": 298734},
-                {"Location": "Pegoh Ipoh", "Population": 601245},
-                {"Location": "Pengerang", "Population": 40213},
-                {"Location": "Petaling Jaya", "Population": 702134},
-                {"Location": "Port Dickson", "Population": 102837},
-                {"Location": "Putrajaya", "Population": 89723},
-                {"Location": "Rompin", "Population": 50214},
-                {"Location": "Samalaju", "Population": 40512},
-                {"Location": "Samarahan", "Population": 119832},
-                {"Location": "Sandakan", "Population": 399821},
-                {"Location": "Sarikei", "Population": 59721},
-                {"Location": "Seberang Jaya", "Population": 201374},
-                {"Location": "Seberang Perai", "Population": 402134},
-                {"Location": "Segamat", "Population": 149823},
-                {"Location": "Seremban", "Population": 498732},
-                {"Location": "Seri Manjung", "Population": 201243},
-                {"Location": "Shah Alam", "Population": 648932},
-                {"Location": "Sibu", "Population": 198432},
-                {"Location": "Sri Aman", "Population": 69832},
-                {"Location": "Sungai Petani", "Population": 349821},
-                {"Location": "Taiping", "Population": 201234},
-                {"Location": "Tanah Merah", "Population": 99823},
-                {"Location": "Tangkak", "Population": 80123},
-                {"Location": "Tanjung Malim", "Population": 59823},
-                {"Location": "Tasek Ipoh", "Population": 598432},
-                {"Location": "Tawau", "Population": 398742},
-                {"Location": "Temerloh", "Population": 80123}
+                {"location":"Alor Gajah","latitude":2.3804,"longitude":102.2089,"pop2020":214321,"pop2021":216786,"pop2022":219387},
+                {"location":"Alor Setar","latitude":6.1214,"longitude":100.3674,"pop2020":414123,"pop2021":418885,"pop2022":423912},
+                {"location":"Balik Pulau","latitude":5.3111,"longitude":100.2228,"pop2020":196607,"pop2021":198868,"pop2022":201254},
+                {"location":"Balok Baru Kuantan","latitude":3.8333,"longitude":103.3333,"pop2020":146411,"pop2021":148095,"pop2022":149872},
+                {"location":"Bandaraya Melaka","latitude":2.205685,"longitude":102.256155,"pop2020":584936,"pop2021":591663,"pop2022":598763},
+                {"location":"Banting","latitude":2.8186,"longitude":101.532,"pop2020":98897,"pop2021":100035,"pop2022":101235},
+                {"location":"Batu Muda","latitude":3.2200,"longitude":101.69,"pop2020":783611,"pop2021":792623,"pop2022":802134},
+                {"location":"Batu Pahat","latitude":1.8540,"longitude":102.931,"pop2020":340864,"pop2021":344784,"pop2022":348921},
+                {"location":"Besut","latitude":5.8018,"longitude":102.5606,"pop2020":136449,"pop2021":138018,"pop2022":139674},
+                {"location":"Bintulu","latitude":3.1711,"longitude":113.0285,"pop2020":226201,"pop2021":228802,"pop2022":231548},
+                {"location":"Bukit Rambai","latitude":2.2167,"longitude":102.25,"pop2020":49616,"pop2021":50187,"pop2022":50789},
+                {"location":"Cheras","latitude":3.1072,"longitude":101.7165,"pop2020":683671,"pop2021":691534,"pop2022":699832},
+                {"location":"Indera Mahkota Kuantan","latitude":3.8340,"longitude":103.3440,"pop2020":118648,"pop2021":120013,"pop2022":121453},
+                {"location":"Jerantut","latitude":3.9728,"longitude":102.3652,"pop2020":88734,"pop2021":89755,"pop2022":90832},
+                {"location":"Kangar","latitude":6.4406,"longitude":100.1999,"pop2020":48672,"pop2021":49232,"pop2022":49823},
+                {"location":"Kapit","latitude":2.0,"longitude":112.95,"pop2020":69022,"pop2021":69816,"pop2022":70654},
+                {"location":"Kemaman","latitude":4.2486,"longitude":103.3783,"pop2020":197669,"pop2021":199942,"pop2022":202341},
+                {"location":"Keningau","latitude":5.3386,"longitude":116.1769,"pop2020":175289,"pop2021":177304,"pop2022":179432},
+                {"location":"Kimanis","latitude":5.2,"longitude":115.9833,"pop2020":49248,"pop2021":49814,"pop2022":50412},
+                {"location":"Klang","latitude":3.0333,"longitude":101.45,"pop2020":779801,"pop2021":788769,"pop2022":798234},
+                {"location":"Kluang","latitude":2.0333,"longitude":103.3167,"pop2020":244101,"pop2021":246908,"pop2022":249871},
+                {"location":"Kota Bharu","latitude":6.1240,"longitude":102.24,"pop2020":490543,"pop2021":496184,"pop2022":502138},
+                {"location":"Kota Kinabalu","latitude":5.975,"longitude":116.0725,"pop2020":489713,"pop2021":495345,"pop2022":501289},
+                {"location":"Kota Tinggi","latitude":1.7375,"longitude":103.8536,"pop2020":196823,"pop2021":199087,"pop2022":201476},
+                {"location":"Kuala Selangor","latitude":3.2933,"longitude":101.2433,"pop2020":97518,"pop2021":98639,"pop2022":99823},
+                {"location":"Kuala Terengganu","latitude":5.33,"longitude":103.14,"pop2020":389251,"pop2021":393727,"pop2022":398452},
+                {"location":"Kuching","latitude":1.55311,"longitude":110.345032,"pop2020":682107,"pop2021":689952,"pop2022":698231},
+                {"location":"Kulim","latitude":5.3670,"longitude":100.5330,"pop2020":295168,"pop2021":298562,"pop2022":302145},
+                {"location":"Labuan","latitude":5.28,"longitude":115.25,"pop2020":100870,"pop2021":102030,"pop2022":103254},
+                {"location":"Langkawi","latitude":6.35,"longitude":99.85,"pop2020":116177,"pop2021":117513,"pop2022":118923},
+                {"location":"Larkin","latitude":1.511796,"longitude":103.745179,"pop2020":194143,"pop2021":196375,"pop2022":198732},
+                {"location":"Limbang","latitude":4.75917,"longitude":115.00667,"pop2020":39305,"pop2021":39757,"pop2022":40234},
+                {"location":"Minden","latitude":5.3580,"longitude":100.2860,"pop2020":144769,"pop2021":146844,"pop2022":148932},
+                {"location":"Miri","latitude":4.399493,"longitude":113.991386,"pop2020":341463,"pop2021":346351,"pop2022":351298},
+                {"location":"Muar","latitude":2.0475,"longitude":102.5647,"pop2020":174666,"pop2021":177237,"pop2022":179823},
+                {"location":"Mukah","latitude":2.9167,"longitude":112.0333,"pop2020":49159,"pop2021":49724,"pop2022":50321},
+                {"location":"Nilai","latitude":2.8333,"longitude":101.8,"pop2020":245289,"pop2021":248110,"pop2022":251087},
+                {"location":"Paka","latitude":4.4,"longitude":103.4333,"pop2020":78273,"pop2021":79173,"pop2022":80123},
+                {"location":"Pasir Gudang","latitude":1.4817,"longitude":103.9106,"pop2020":291836,"pop2021":295192,"pop2022":298734},
+                {"location":"Pegoh Ipoh","latitude":4.6060,"longitude":101.0830,"pop2020":587361,"pop2021":594116,"pop2022":601245},
+                {"location":"Pengerang","latitude":1.3647023,"longitude":104.1111109,"pop2020":39284,"pop2021":39736,"pop2022":40213},
+                {"location":"Petaling Jaya","latitude":3.1073,"longitude":101.6067,"pop2020":685920,"pop2021":693808,"pop2022":702134},
+                {"location":"Port Dickson","latitude":2.5183,"longitude":101.8036,"pop2020":100462,"pop2021":101618,"pop2022":102837},
+                {"location":"Putrajaya","latitude":2.92,"longitude":101.65,"pop2020":87651,"pop2021":88659,"pop2022":89723},
+                {"location":"Rompin","latitude":2.8167,"longitude":103.4,"pop2020":49054,"pop2021":49619,"pop2022":50214},
+                {"location":"Samalaju","latitude":3.1780,"longitude":113.0840,"pop2020":39576,"pop2021":40032,"pop2022":40512},
+                {"location":"Samarahan","latitude":1.4684,"longitude":110.2860,"pop2020":117065,"pop2021":118411,"pop2022":119832},
+                {"location":"Sandakan","latitude":5.8408,"longitude":118.0598,"pop2020":390588,"pop2021":395080,"pop2022":399821},
+                {"location":"Sarikei","latitude":2.11667,"longitude":111.51667,"pop2020":58342,"pop2021":59013,"pop2022":59721},
+                {"location":"Seberang Jaya","latitude":5.398982,"longitude":100.407131,"pop2020":196724,"pop2021":198986,"pop2022":201374},
+                {"location":"Seberang Perai","latitude":5.4019,"longitude":100.4444,"pop2020":392848,"pop2021":397366,"pop2022":402134},
+                {"location":"Segamat","latitude":2.5236,"longitude":102.8388,"pop2020":146363,"pop2021":148046,"pop2022":149823},
+                {"location":"Seremban","latitude":2.7256,"longitude":101.9386,"pop2020":487215,"pop2021":492818,"pop2022":498732},
+                {"location":"Seri Manjung","latitude":4.2044,"longitude":100.675,"pop2020":196596,"pop2021":198857,"pop2022":201243},
+                {"location":"Shah Alam","latitude":3.0738,"longitude":101.5183,"pop2020":633947,"pop2021":641237,"pop2022":648932},
+                {"location":"Sibu","latitude":2.2872,"longitude":111.8305,"pop2020":193850,"pop2021":196079,"pop2022":198432},
+                {"location":"Sri Aman","latitude":1.4875,"longitude":111.4392,"pop2020":68219,"pop2021":69004,"pop2022":69832},
+                {"location":"Sungai Petani","latitude":5.6499,"longitude":100.4835,"pop2020":341743,"pop2021":345673,"pop2022":349821},
+                {"location":"Taiping","latitude":4.8535,"longitude":100.7378,"pop2020":196587,"pop2021":198848,"pop2022":201234},
+                {"location":"Tanah Merah","latitude":5.808887,"longitude":102.147077,"pop2020":97518,"pop2021":98639,"pop2022":99823},
+                {"location":"Tangkak","latitude":2.3833,"longitude":102.565,"pop2020":78273,"pop2021":79173,"pop2022":80123},
+                {"location":"Tanjung Malim","latitude":3.6962015,"longitude":101.519946,"pop2020":58442,"pop2021":59114,"pop2022":59823},
+                {"location":"Tasek Ipoh","latitude":4.595,"longitude":101.07,"pop2020":584613,"pop2021":591336,"pop2022":598432},
+                {"location":"Tawau","latitude":4.2449,"longitude":117.8916,"pop2020":389534,"pop2021":394014,"pop2022":398742},
+                {"location":"Temerloh","latitude":3.4376,"longitude":102.3956,"pop2020":78273,"pop2021":79173,"pop2022":80123}
               ]
             },
-            "key": "Location",
-            "fields": ["Population"]
+            "key": "location",
+            "fields": ["latitude", "longitude", "pop2020", "pop2021", "pop2022"]
           }
         },
         {
-          "filter": "datum['2022-05-07 10:00'] > 0"
+          "calculate": "selected_year == '2020' ? datum.pop2020 : selected_year == '2021' ? datum.pop2021 : datum.pop2022",
+          "as": "Population"
         }
       ],
       "mark": {"type": "circle", "opacity": 0.7},
       "encoding": {
-        "longitude": {"field": "Longitude", "type": "quantitative"},
-        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
         "size": {
           "field": "Population",
           "type": "quantitative",
-          "title": "Location Population",
-          "scale": {
-            "domain": [100000, 800000],
-            "range": [50, 2000]
-          }
+          "title": "Population",
+          "scale": {"domain": [100000, 800000], "range": [50, 1500]}
         },
         "color": {
-          "field": "2022-05-07 10:00",
+          "field": "AvgAPI",
           "type": "quantitative",
           "title": "Air Pollution Index",
-          "scale": {
-            "type": "threshold",
-            "domain": [20, 30, 40, 50, 60],
-            "range": ["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#de2d26", "#a50f15"]
-          }
+          "scale": {"type": "threshold", "domain": [20, 40, 60, 80, 100], "range": ["#fee5d9","#fcbba1","#fc9272","#fb6a4a","#de2d26","#a50f15"]}
+
         },
         "tooltip": [
-          {"field": "Location", "type": "nominal", "title": "Location: "},
-          {"field": "Population", "type": "quantitative", "title": "Population (2022): "},
-          {"field": "2022-05-07 10:00", "type": "quantitative", "title": "Air Pollution Index: "}
+          {"field": "Location", "title": "Location"},
+          {"field": "Population", "type": "quantitative", "format": ",", "title": "Population (Selected Year)"},
+          {"field": "AvgAPI","format": ".0f", "title": "Average API"}
         ]
       }
     }
-  ]
+  ],
+  "resolve": {"legend": {"color": "independent", "size": "independent"}}
 }
