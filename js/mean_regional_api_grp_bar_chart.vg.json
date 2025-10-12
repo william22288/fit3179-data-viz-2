@@ -1,0 +1,110 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Grouped bar chart showing average API by region (2017–2022) with range sliders",
+  "data": {
+    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2017_to_2022_Daily_API_across_Different_Stations(long).csv"
+  },
+  "params": [
+    {
+      "name": "MinYear",
+      "value": 2017,
+      "bind": {
+        "input": "range",
+        "min": 2017,
+        "max": 2022,
+        "step": 1,
+        "name": "Start Year: "
+      }
+    },
+    {
+      "name": "MaxYear",
+      "value": 2022,
+      "bind": {
+        "input": "range",
+        "min": 2017,
+        "max": 2022,
+        "step": 1,
+        "name": "End Year: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "fold": [
+        "Alor Gajah","Alor Setar","Balik Pulau","Balok Baru Kuantan","Bandaraya Melaka",
+        "Banting","Batu Muda","Batu Pahat","Besut","Bintulu","Bukit Rambai","Cheras",
+        "Indera Mahkota Kuantan","Jerantut","Kangar","Kapit","Kemaman","Keningau",
+        "Kimanis","Klang","Kluang","Kota Bharu","Kota Kinabalu","Kota Tinggi",
+        "Kuala Selangor","Kuala Terengganu","Kuching","Kulim","Labuan","Langkawi",
+        "Larkin","Limbang","Minden","Miri","Muar","Mukah","Nilai","Paka","Pasir Gudang",
+        "Pegoh Ipoh","Pengerang","Petaling Jaya","Port Dickson","Putrajaya","Rompin",
+        "Samalaju","Samarahan","Sandakan","Sarikei","Seberang Jaya","Seberang Perai",
+        "Segamat","Seremban","Seri Manjung","Shah Alam","Sibu","Sri Aman",
+        "Sungai Petani","Taiping","Tanah Merah","Tangkak","Tanjung Malim",
+        "Tasek Ipoh","Tawau","Temerloh"
+      ],
+      "as": ["location", "API"]
+    },
+    {
+      "lookup": "location",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Stations_Information.csv"
+        },
+        "key": "location",
+        "fields": ["state"]
+      }
+    },
+    {"calculate": "toNumber(datum.API)", "as": "API"},
+    {"calculate": "toDate(datum.Time)", "as": "Date"},
+    {"calculate": "year(datum.Date)", "as": "year"},
+    {
+      "calculate": "datum.state == 'Sabah' || datum.state == 'Labuan' || datum.state == 'W.P. Labuan' ? 'Sabah' : datum.state == 'Sarawak' ? 'Sarawak' : 'Peninsular Malaysia'",
+      "as": "region"
+    },
+    {
+      "filter": "datum.year >= MinYear && datum.year <= MaxYear"
+    },
+    {
+      "aggregate": [
+        {"op": "mean", "field": "API", "as": "avg_API"}
+      ],
+      "groupby": ["year", "region"]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "avg_API",
+      "type": "quantitative",
+      "title": "Average API"
+    },
+    "color": {
+      "field": "region",
+      "type": "nominal",
+      "scale": {
+        "domain": ["Peninsular Malaysia", "Sabah", "Sarawak"],
+        "range": ["#999999", "#E69F00", "#56B4E9"]
+      },
+      "title": "Region"
+    },
+    "xOffset": {"field": "region"},
+    "tooltip": [
+      {"field": "year", "type": "ordinal", "title": "Year"},
+      {"field": "region", "type": "nominal", "title": "Region"},
+      {"field": "avg_API", "type": "quantitative", "title": "Average API", "format": ".2f"}
+    ]
+  },
+  "mark": {"type": "bar", "cornerRadiusTopLeft": 4, "cornerRadiusTopRight": 4},
+  "title": {
+    "text": "Average Air Pollution Index (API) by Region",
+    "font": "serif",
+    "fontSize": 20,
+    "anchor": "middle"
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 950,
+  "height": 600,
+  "padding": 10,
+  "title": {
+    "text": "Regional and Overall Average Air Pollution Index (API) from 2019 to 2022",
+    "anchor": "middle",
+    "fontSize": 20,
+    "font": "serif",
+    "fontWeight": "bold"
+  },
+
+  "data": [
+    {
+      "name": "raw",
+      "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2017_to_2022_Daily_API_across_Different_Stations(long).csv",
+      "format": {"type": "csv"}
+    },
+    {
+      "name": "stations",
+      "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Stations_Information.csv",
+      "format": {"type": "csv"}
+    },
+
+    {
+      "name": "long",
+      "source": "raw",
+      "transform": [
+        {
+          "type": "fold",
+          "as": ["location", "API"],
+          "fields": [
+            "Alor Gajah","Alor Setar","Balik Pulau","Balok Baru Kuantan","Bandaraya Melaka",
+            "Banting","Batu Muda","Batu Pahat","Besut","Bintulu","Bukit Rambai","Cheras",
+            "Indera Mahkota Kuantan","Jerantut","Kangar","Kapit","Kemaman","Keningau",
+            "Kimanis","Klang","Kluang","Kota Bharu","Kota Kinabalu","Kota Tinggi",
+            "Kuala Selangor","Kuala Terengganu","Kuching","Kulim","Labuan","Langkawi",
+            "Larkin","Limbang","Minden","Miri","Muar","Mukah","Nilai","Paka","Pasir Gudang",
+            "Pegoh Ipoh","Pengerang","Petaling Jaya","Port Dickson","Putrajaya","Rompin",
+            "Samalaju","Samarahan","Sandakan","Sarikei","Seberang Jaya","Seberang Perai",
+            "Segamat","Seremban","Seri Manjung","Shah Alam","Sibu","Sri Aman",
+            "Sungai Petani","Taiping","Tanah Merah","Tangkak","Tanjung Malim","Tasek Ipoh",
+            "Tawau","Temerloh"
+          ]
+        },
+        {
+          "type": "lookup",
+          "from": "stations",
+          "key": "location",
+          "fields": ["location"],
+          "as": ["station_info"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.station_info==null?null:datum.station_info.state",
+          "as": "state"
+        },
+        {"type": "formula", "expr": "year(toDate(datum.Time))", "as": "Year"},
+        {"type": "filter", "expr": "datum.Year >= 2019 && datum.Year <= 2022"},
+        {"type": "filter", "expr": "isValid(datum.API) && datum.API != ''"},
+        {
+          "type": "formula",
+          "expr": "datum.state == 'Sabah' || datum.state == 'W.P. Labuan' ? 'Sabah' : (datum.state == 'Sarawak' ? 'Sarawak' : 'Peninsular Malaysia')",
+          "as": "Region"
+        }
+      ]
+    },
+
+    {
+      "name": "regional_avg",
+      "source": "long",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Region", "Year"],
+          "ops": ["mean"],
+          "fields": ["API"],
+          "as": ["Average_API"]
+        }
+      ]
+    },
+
+    {
+      "name": "malaysia_avg",
+      "source": "long",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Year"],
+          "ops": ["mean"],
+          "fields": ["API"],
+          "as": ["Average_API"]
+        },
+        {"type": "formula", "expr": "'Malaysia'", "as": "Region"}
+      ]
+    },
+
+    {
+      "name": "links",
+      "source": ["regional_avg", "malaysia_avg"],
+      "transform": [
+        {"type": "collect", "sort": {"field": ["Region", "Year"], "order": ["ascending", "ascending"]}}
+      ]
+    },
+
+    {
+      "name": "left_nodes",
+      "values": [
+        {"name": "Peninsular Malaysia"},
+        {"name": "Sabah"},
+        {"name": "Sarawak"},
+        {"name": "Malaysia"}
+      ]
+    },
+
+    {
+      "name": "right_nodes",
+      "values": [
+        {"name": "2019"},
+        {"name": "2020"},
+        {"name": "2021"},
+        {"name": "2022"}
+      ]
+    }
+  ],
+
+  "signals": [
+    {"name": "xLeft", "value": 240},
+    {"name": "xRight", "value": 760}
+  ],
+
+  "scales": [
+    {
+      "name": "yscaleLeft",
+      "type": "point",
+      "domain": {"data": "left_nodes", "field": "name"},
+      "range": [150, 480]
+    },
+    {
+      "name": "yscaleRight",
+      "type": "point",
+      "domain": {"data": "right_nodes", "field": "name"},
+      "range": [150, 480]
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": ["Peninsular Malaysia", "Sabah", "Sarawak", "Malaysia"],
+      "range": ["#999999", "#E69F00", "#56B4E9", "#9370DB"]
+    },
+    {
+      "name": "widthScale",
+      "type": "linear",
+      "domain": {"data": "links", "field": "Average_API"},
+      "range": [2, 22]
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "path",
+      "from": {"data": "links"},
+      "encode": {
+        "enter": {
+          "fill": {"value": "none"},
+          "strokeOpacity": {"value": 0.9},
+          "strokeCap": {"value": "round"},
+          "cursor": {"value": "pointer"}
+        },
+        "update": {
+          "stroke": {"scale": "color", "field": "Region"},
+          "strokeWidth": {"scale": "widthScale", "field": "Average_API"},
+          "path": {
+            "signal": "'M' + xLeft + ',' + scale('yscaleLeft', datum.Region) + ' C ' + (xLeft + 160) + ',' + scale('yscaleLeft', datum.Region) + ' ' + (xRight - 160) + ',' + scale('yscaleRight', toString(datum.Year)) + ' ' + xRight + ',' + scale('yscaleRight', toString(datum.Year))"
+          },
+          "tooltip": {
+            "signal": "{'Region': datum.Region, 'Year': datum.Year, 'Average API': format(datum.Average_API, '.2f')}"
+          }
+        },
+        "hover": {
+          "strokeOpacity": {"value": 1},
+          "strokeWidth": {"signal": "max(scale('widthScale', datum.Average_API) + 2, 3)"}
+        }
+      }
+    },
+
+    {
+      "type": "rect",
+      "from": {"data": "left_nodes"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "xLeft - 26"},
+          "y": {"signal": "scale('yscaleLeft', datum.name) - 12"},
+          "width": {"value": 52},
+          "height": {"value": 24},
+          "fill": {"scale": "color", "field": "name"},
+          "stroke": {"value": "none"},
+          "cornerRadius": {"value": 4},
+          "tooltip": {"signal": "{'Region': datum.name}"}
+        }
+      }
+    },
+
+    {
+      "type": "rect",
+      "from": {"data": "right_nodes"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "xRight - 26"},
+          "y": {"signal": "scale('yscaleRight', datum.name) - 12"},
+          "width": {"value": 52},
+          "height": {"value": 24},
+          "fill": {"value": "#e0e0e0"},
+          "stroke": {"value": "none"},
+          "cornerRadius": {"value": 4},
+          "tooltip": {"signal": "{'Year': datum.name}"}
+        }
+      }
+    },
+
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"signal": "xLeft"},
+          "y": {"value": 110},
+          "align": {"value": "center"},
+          "baseline": {"value": "bottom"},
+          "text": {"value": "Region"},
+          "fontSize": {"value": 14},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#333"}
+        }
+      }
+    },
+
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"signal": "xRight"},
+          "y": {"value": 110},
+          "align": {"value": "center"},
+          "baseline": {"value": "bottom"},
+          "text": {"value": "Year"},
+          "fontSize": {"value": 14},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#333"}
+        }
+      }
+    },
+
+    {
+      "type": "text",
+      "from": {"data": "left_nodes"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "xLeft - 36"},
+          "y": {"signal": "scale('yscaleLeft', datum.name)"},
+          "align": {"value": "right"},
+          "baseline": {"value": "middle"},
+          "text": {"field": "name"},
+          "fontSize": {"value": 13},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#000"}
+        }
+      }
+    },
+
+    {
+      "type": "text",
+      "from": {"data": "right_nodes"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "xRight + 36"},
+          "y": {"signal": "scale('yscaleRight', datum.name)"},
+          "align": {"value": "left"},
+          "baseline": {"value": "middle"},
+          "text": {"field": "name"},
+          "fontSize": {"value": 13},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#000"}
+        }
+      }
+    }
+  ],
+
+  "config": {
+    "view": {"stroke": "transparent"}
+  }
+}

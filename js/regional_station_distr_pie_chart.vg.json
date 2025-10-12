@@ -74,7 +74,8 @@
   "title": {
     "text": "Percentage Distribution of API Monitoring Stations across Malaysia",
     "anchor": "middle",
-    "fontSize": 16,
+    "fontSize": 20,
+    "font": "serif",
     "offset": 25
   },
   "view": {"stroke": null}

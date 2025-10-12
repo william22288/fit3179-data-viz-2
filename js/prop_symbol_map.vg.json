@@ -41,7 +41,7 @@
     
     {
     "data": {
-      "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+      "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/oceans.topojson",
       "format": {"type": "topojson", "feature": "oceans"}
     },
     "mark": {"type": "geoshape", "fill": "#cce5ff", "stroke": "transparent"}
@@ -52,19 +52,7 @@
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/william22288/FIT3179_Homework_Week9/refs/heads/main/js/malaysia.geojson"
-      },
-      "mark": {"type": "geoshape", "fill": "transparent", "stroke": "#00796b", "strokeWidth": 0.7}
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/apisit/thailand.json/refs/heads/master/thailand.json"
-      },
-      "mark": {"type": "geoshape", "fill": "transparent", "stroke": "#00796b", "strokeWidth": 0.7}
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/superpikar/indonesia-geojson/refs/heads/master/indonesia.geojson"
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/malaysia.geojson"
       },
       "mark": {"type": "geoshape", "fill": "transparent", "stroke": "#00796b", "strokeWidth": 0.7}
     },

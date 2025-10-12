@@ -162,7 +162,7 @@
       {"field": "API", "type": "quantitative"}
     ]
   },
-  "title": "Daily Air Pollution Index (API) Across up to 3 Selected Stations from 2017 to 2022",
+  "title": {"text": "Daily Air Pollution Index (API) Across up to 3 Selected Stations from 2017 to 2022", "font": "serif", "fontSize": 20},
   "config": {
     "line": {"point": false},
     "view": {"stroke": "transparent"},
