@@ -262,7 +262,6 @@
           "baseline": {"value": "middle"},
           "text": {"field": "name"},
           "fontSize": {"value": 13},
-          "fontWeight": {"value": "bold"},
           "fill": {"value": "#000"}
         }
       }
@@ -274,16 +273,106 @@
       "encode": {
         "enter": {
           "x": {"signal": "xRight + 36"},
-          "y": {"signal": "scale('yscaleRight', datum.name)"},
+          "y": {"signal": "scale('yscaleRight', datum.name) "},
           "align": {"value": "left"},
           "baseline": {"value": "middle"},
           "text": {"field": "name"},
           "fontSize": {"value": 13},
-          "fontWeight": {"value": "bold"},
           "fill": {"value": "#000"}
         }
       }
+    },
+    {
+    "type": "rect",
+    "encode": {
+      "enter": {
+        "x": {"signal": "xLeft - 220"},
+        "y": {"signal": "scale('yscaleLeft', 'Sabah') - 65"},
+        "width": {"value": 220},
+        "height": {"value": 40},
+        "fill": {"value": "#f0f0f0"},
+        "stroke": {"value": "#ccc"},
+        "cornerRadius": {"value": 4}
+      }
     }
+  },
+  {
+    "type": "text",
+    "encode": {
+      "enter": {
+        "x": {"signal": "xLeft - 110"},
+        "y": {"signal": "scale('yscaleLeft', 'Sabah') - 63"},
+        "align": {"value": "center"},
+        "baseline": {"value": "top"},
+        "fontSize": {"value": 11},
+        "fill": {"value": "#555"},
+        "text": {"value": ["Eastern states (Sabah & Sarawak)","have lower API levels compared to","Peninsular Malaysia."]}
+      }
+    }
+  },
+
+  {
+    "type": "rect",
+    "encode": {
+      "enter": {
+        "x": {"signal": "xLeft + 110"},
+        "y": {"signal": "scale('yscaleLeft', 'Malaysia') + 20"},
+        "width": {"value": 260},
+        "height": {"value": 36},
+        "fill": {"value": "#f0f0f0"},
+        "stroke": {"value": "#ccc"},
+        "cornerRadius": {"value": 4}
+      }
+    }
+  },
+  {
+    "type": "text",
+    "encode": {
+      "enter": {
+        "x": {"signal": "xLeft + 120"},
+        "y": {"signal": "scale('yscaleLeft', 'Malaysia') +  30"},
+        "align": {"value": "left"},
+        "baseline": {"value": "top"},
+        "fontSize": {"value": 11},
+        "fill": {"value": "#555"},
+        "text": {"value": "Malaysia’s average API is the mean of all regions."}
+      }
+    }
+  },
+
+  {
+    "type": "rect",
+    "encode": {
+      "enter": {
+        "x": {"signal": "xRight + 10"},
+        "y": {"signal": "scale('yscaleRight', '2020') + 20"},
+        "width": {"value": 280},
+        "height": {"value": 45},
+        "fill": {"value": "#f0f0f0"},
+        "stroke": {"value": "#ccc"},
+        "cornerRadius": {"value": 4}
+      }
+    }
+  },
+  {
+    "type": "text",
+    "encode": {
+      "enter": {
+        "x": {"signal": "xRight + 25"},
+        "y": {"signal": "scale('yscaleRight', '2020') + 24"},
+        "align": {"value": "left"},
+        "baseline": {"value": "top"},
+        "fontSize": {"value": 11},
+        "fill": {"value": "#555"},
+        "limit": {"value": 260},
+        "text": {
+          "value": ["Noticeable decrease in API during 2020","for all regions, likely due to COVID-19","lockdowns reducing industrial & vehicular emissions."]
+        }
+      }
+    }
+  }
+
+    
   ],
 
   "config": {

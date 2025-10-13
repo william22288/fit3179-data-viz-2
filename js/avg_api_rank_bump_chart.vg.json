@@ -1,82 +1,123 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Bump chart showing ranking of states by average yearly API (2017-2022)",
+  "description": "Bump chart showing ranking of states by average yearly API (2017-2022) with bottom-right annotation",
   "width": 600,
   "height": 400,
-  "data": {
-    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2017_to_2022_Daily_API_across_Different_Stations(long).csv",
-    "format": {"type": "csv"}
-  },
-  "transform": [
+  "layer": [
     {
-      "lookup": "Time",
-      "from": {
-        "data": {
-          "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Stations_Information.csv",
-          "format": {"type": "csv"}
+      "data": {
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2017_to_2022_Daily_API_across_Different_Stations(long).csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {
+          "lookup": "Time",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Stations_Information.csv",
+              "format": {"type": "csv"}
+            },
+            "key": "location",
+            "fields": ["state"]
+          }
         },
-        "key": "location",
-        "fields": ["state"]
+        {
+          "calculate": "year(datum.Time)",
+          "as": "year"
+        },
+        {"fold": [
+          "Alor Gajah","Alor Setar","Balik Pulau","Balok Baru Kuantan","Bandaraya Melaka","Banting","Batu Muda","Batu Pahat","Besut","Bintulu","Bukit Rambai","Cheras","Indera Mahkota Kuantan","Jerantut","Kangar","Kapit","Kemaman","Keningau","Kimanis","Klang","Kluang","Kota Bharu","Kota Kinabalu","Kota Tinggi","Kuala Selangor","Kuala Terengganu","Kuching","Kulim","Labuan","Langkawi","Larkin","Limbang","Minden","Miri","Muar","Mukah","Nilai","Paka","Pasir Gudang","Pegoh Ipoh","Pengerang","Petaling Jaya","Port Dickson","Putrajaya","Rompin","Samalaju","Samarahan","Sandakan","Sarikei","Seberang Jaya","Seberang Perai","Segamat","Seremban","Seri Manjung","Shah Alam","Sibu","Sri Aman","Sungai Petani","Taiping","Tanah Merah","Tangkak","Tanjung Malim","Tasek Ipoh","Tawau","Temerloh"
+        ], "as": ["station", "API"]
+        },
+        {
+          "lookup": "station",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Stations_Information.csv",
+              "format": {"type": "csv"}
+            },
+            "key": "location",
+            "fields": ["state"]
+          }
+        },
+        {
+          "aggregate": [{"op": "average", "field": "API", "as": "avg_API"}],
+          "groupby": ["year", "state"]
+        },
+        {
+          "window": [{"op": "rank", "field": "avg_API", "as": "rank"}],
+          "sort": [{"field": "avg_API", "order": "descending"}],
+          "groupby": ["year"]
+        }
+      ],
+      "mark": {"type": "line", "point": true},
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal", "title": "Year"},
+        "y": {"field": "rank", "type": "ordinal", "title": "API Rank"},
+        "color": {
+            "field": "state", 
+            "type": "nominal", 
+            "title": "State",
+            "scale": {
+            "range": [
+                "#1f77b4", "#ff7f0e", "#9467bd", "#8c564b",
+                "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+                "#aec7e8", "#ffbb78", "#c5b0d5", "#c49c94",
+                "#f7b6d2", "#c7c7c7", "#dbdb8d", "#9edae5"
+            ]
+          }
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "year", "type": "ordinal", "title": "Year"},
+          {"field": "avg_API", "type": "quantitative", "format": ".1f", "title": "Average API"},
+          {"field": "rank", "type": "ordinal", "title": "Rank"}
+        ]
       }
     },
     {
-      "calculate": "year(datum.Time)",
-      "as": "year"
-    },
-    {"fold": [
-      "Alor Gajah","Alor Setar","Balik Pulau","Balok Baru Kuantan","Bandaraya Melaka","Banting","Batu Muda","Batu Pahat","Besut","Bintulu","Bukit Rambai","Cheras","Indera Mahkota Kuantan","Jerantut","Kangar","Kapit","Kemaman","Keningau","Kimanis","Klang","Kluang","Kota Bharu","Kota Kinabalu","Kota Tinggi","Kuala Selangor","Kuala Terengganu","Kuching","Kulim","Labuan","Langkawi","Larkin","Limbang","Minden","Miri","Muar","Mukah","Nilai","Paka","Pasir Gudang","Pegoh Ipoh","Pengerang","Petaling Jaya","Port Dickson","Putrajaya","Rompin","Samalaju","Samarahan","Sandakan","Sarikei","Seberang Jaya","Seberang Perai","Segamat","Seremban","Seri Manjung","Shah Alam","Sibu","Sri Aman","Sungai Petani","Taiping","Tanah Merah","Tangkak","Tanjung Malim","Tasek Ipoh","Tawau","Temerloh"
-    ], "as": ["station", "API"]
-    },
-    {
-      "lookup": "station",
-      "from": {
-        "data": {
-          "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Stations_Information.csv",
-          "format": {"type": "csv"}
-        },
-        "key": "location",
-        "fields": ["state"]
+      "data": {
+        "values": [{"dummy": 1}]
+      },
+      "mark": {
+        "type": "rect",
+        "fill": "#f0f0f0",
+        "stroke": "#ccc",
+        "cornerRadius": 4
+      },
+      "encoding": {
+        "x": {"value": 605},
+        "y": {"value": 340},
+        "x2": {"value": 900},
+        "y2": {"value": 400}
       }
     },
     {
-      "aggregate": [{"op": "average", "field": "API", "as": "avg_API"}],
-      "groupby": ["year", "state"]
-    },
-    {
-      "window": [{"op": "rank", "field": "avg_API", "as": "rank"}],
-      "sort": [{"field": "avg_API", "order": "descending"}],
-      "groupby": ["year"]
+      "data": {
+        "values": [
+          {
+            "text": ["Trends in average yearly API across","Malaysian states and federal territories are illustrated,","highlighting areas that are consistently associated", "with higher or lower air pollution over 2017–2022."]
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "top",
+        "fontSize": 12
+        
+      },
+      "encoding": {
+        "x": {"value": 610},
+        "y": {"value": 345},
+        "text": {"field": "text"}
+      }
     }
   ],
-  "mark": {"type": "line", "point": true},
-  "encoding": {
-    "x": {"field": "year", "type": "ordinal", "title": "Year"},
-    "y": {"field": "rank", "type": "ordinal", "title": "API Rank"},
-    "color": {
-        "field": "state", 
-        "type": "nominal", 
-        "title": "State",
-        "scale": {
-        "range": [
-            "#1f77b4", "#ff7f0e", "#9467bd", "#8c564b",
-            "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
-            "#aec7e8", "#ffbb78", "#c5b0d5", "#c49c94",
-            "#f7b6d2", "#c7c7c7", "#dbdb8d", "#9edae5"
-        ]
-}
-
-    },
-    "tooltip": [
-      {"field": "state", "type": "nominal", "title": "State"},
-      {"field": "year", "type": "ordinal", "title": "Year"},
-      {"field": "avg_API", "type": "quantitative", "format": ".1f", "title": "Average API"},
-      {"field": "rank", "type": "ordinal", "title": "Rank"}
-    ]
-  },
   "title": {
     "text": ["Average Yearly Air Pollution Index (API) of States and Federal Territories", "in Malaysia (2017–2022)"],
-  "font": "serif",
-  "fontSize": 20,
-  "anchor": "middle"
+    "font": "serif",
+    "fontSize": 20,
+    "anchor": "middle"
   }
 }

@@ -82,7 +82,7 @@
     "y": {
       "field": "avg_API",
       "type": "quantitative",
-      "title": "Average API"
+      "title": "API"
     },
     "color": {
       "field": "region",

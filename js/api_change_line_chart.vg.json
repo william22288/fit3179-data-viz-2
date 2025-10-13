@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Interactive line chart showing API across stations with three station selectors (optional).",
+  "description": "Interactive line chart showing API across stations with up to three selectable stations and year range filter, including annotations for maximum API per station.",
   "width": 800,
   "height": 400,
   "data": {
@@ -13,8 +13,7 @@
       "bind": {
         "input": "select",
         "options": [
-          "None",
-          "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+          "None", "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
           "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
           "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
           "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
@@ -33,12 +32,11 @@
     },
     {
       "name": "Station2",
-      "value": "Cheras",
+      "value": "Alor Setar",
       "bind": {
         "input": "select",
         "options": [
-          "None",
-          "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+          "None", "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
           "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
           "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
           "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
@@ -61,8 +59,7 @@
       "bind": {
         "input": "select",
         "options": [
-          "None",
-          "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
+          "None", "Alor Gajah", "Alor Setar", "Balik Pulau", "Balok Baru Kuantan",
           "Bandaraya Melaka", "Banting", "Batu Muda", "Batu Pahat", "Besut",
           "Bintulu", "Bukit Rambai", "Cheras", "Indera Mahkota Kuantan",
           "Jerantut", "Kangar", "Kapit", "Kemaman", "Keningau", "Kimanis",
@@ -129,43 +126,76 @@
     },
     {"filter": "datum.Year >= MinYear && datum.Year <= MaxYear"}
   ],
-  "mark": {"type": "line", "point": false},
-  "encoding": {
-    "x": {"field": "Date", "type": "temporal", "title": "Date", "axis": {"grid": false}},
-    "y": {
-      "field": "API",
-      "type": "quantitative",
-      "title": "Air Pollution Index (API)",
-      "scale": {"zero": false}
+  "layer": [
+    {
+      "mark": {"type": "line", "point": false},
+      "encoding": {
+        "x": {"field": "Date", "type": "temporal", "title": "Date", "axis": {"grid": false}},
+        "y": {
+          "field": "API",
+          "type": "quantitative",
+          "title": "Air Pollution Index (API)",
+          "scale": {"zero": false}
+        },
+        "color": {
+          "field": "Region",
+          "type": "nominal",
+          "title": "Stations",
+          "scale": {"scheme": "tableau10"},
+          "legend": {
+            "labelLimit": 50000,
+            "orient": "bottom",
+            "titleLimit": 50000,
+            "padding": 20,
+            "direction": "vertical"
+          }
+        },
+        "tooltip": [
+          {"field": "Region", "title": "Station"},
+          {
+            "field": "Date",
+            "type": "temporal",
+            "title": "Date",
+            "format": "%B %d, %Y"
+          },
+          {"field": "API", "type": "quantitative"}
+        ]
+      }
     },
-    "color": {
-      "field": "Region",
-      "type": "nominal",
-      "title": "Stations",
-      "scale": {"scheme": "tableau10"},
-  "legend": {
-    "labelLimit": 50000,    
-    "orient": "bottom",    
-    "titleLimit": 50000,
-    "padding": 20, 
-    "direction": "vertical"
-       }
-    },
-    "tooltip": [
-      {"field": "Region", "title": "Station"},
-      {
-    "field": "Date",
-    "type": "temporal",
-    "title": "Date",
-    "format": "%B %d, %Y"
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {"op": "max", "field": "API", "as": "maxAPI"},
+            {"op": "argmax", "field": "API", "as": "maxPoint"}
+          ],
+          "groupby": ["Region"]
+        },
+        {
+          "calculate": "datum.Region + ' Maximum API: ' + format(datum.maxAPI, '.0f')",
+          "as": "maxLabel"
+        }
+      ],
+      "mark": {"type": "text", "align": "right", "dx": 5, "dy": -5, "color": "gray"},
+      "encoding": {
+        "x": {"field": "maxPoint.Date", "type": "temporal"},
+        "y": {"field": "maxPoint.API", "type": "quantitative"},
+        "text": {"field": "maxLabel"},
+        "detail": {"field": "Region"}
+      }
+    }
+  ],
+  "title": {
+    "text": "Daily Air Pollution Index (API) Across up to 3 Selected Stations from 2017 to 2022",
+    "font": "serif",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "anchor": "middle",
+    "color": "#000"
   },
-      {"field": "API", "type": "quantitative"}
-    ]
-  },
-  "title": {"text": "Daily Air Pollution Index (API) Across up to 3 Selected Stations from 2017 to 2022", "font": "serif", "fontSize": 20},
   "config": {
     "line": {"point": false},
     "view": {"stroke": "transparent"},
-    "padding": {"top": 30} 
+    "padding": {"top": 30}
   }
 }
