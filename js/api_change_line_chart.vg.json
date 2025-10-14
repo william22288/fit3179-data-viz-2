@@ -89,10 +89,10 @@
     },
     {
       "name": "MaxYear",
-      "value": 2022,
+      "value": 2017,
       "bind": {
         "input": "range",
-        "min": 2018,
+        "min": 2017,
         "max": 2022,
         "step": 1,
         "name": "Year to End"
