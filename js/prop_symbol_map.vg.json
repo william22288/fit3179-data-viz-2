@@ -8,8 +8,8 @@
     "color": "#000",
     "font": "serif"
   },
-  "width": 900,
-  "height": 600,
+  "width": 800,
+  "height": 400,
   "projection": {"type": "mercator", "center": [110, 4], "scale": 2000},
 
   "params": [
