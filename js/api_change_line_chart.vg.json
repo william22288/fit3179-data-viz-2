@@ -9,7 +9,7 @@
   "params": [
     {
       "name": "Station1",
-      "value": "Alor Gajah",
+      "value": "Kota Bharu",
       "bind": {
         "input": "select",
         "options": [
@@ -32,7 +32,7 @@
     },
     {
       "name": "Station2",
-      "value": "Alor Setar",
+      "value": "None",
       "bind": {
         "input": "select",
         "options": [
@@ -55,7 +55,7 @@
     },
     {
       "name": "Station3",
-      "value": "Kota Kinabalu",
+      "value": "None",
       "bind": {
         "input": "select",
         "options": [
