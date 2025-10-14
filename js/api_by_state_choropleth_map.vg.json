@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Average Air Pollution Index (API) by State in Malaysia (2017–2022)",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "font": "serif",
+    "anchor": "middle",
+    "dy": -5
+  },
+  "width": 780,
+  "height": 550,
+  "padding": {"top": 0, "bottom": 10, "left": 10, "right": 100},
+  "projection": {
+    "type": "mercator",
+    "center": [110, 4],
+    "scale": 2000
+  },
+  "params": [
+    {
+      "name": "YearSelector",
+      "value": 2017,
+      "bind": {
+        "input": "range",
+        "min": 2017,
+        "max": 2022,
+        "step": 1,
+        "name": "Year: "
+      }
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/ne_10m_ocean.json",
+        "format": {"type": "topojson", "feature": "ne_10m_ocean"}
+      },
+      "mark": {"type": "geoshape", "fill": "#cce5ff", "stroke": "none"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/ne_110m_graticules_.json",
+        "format": {"type": "topojson", "feature": "ne_110m_graticules_1"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "none",
+        "stroke": "lightgray",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/state_yearly_average_API_2017_to_2022.csv",
+        "format": {"type": "csv"}
+      },
+      "transform": [
+        {"filter": "datum.Year == YearSelector"},
+        {
+          "lookup": "State",
+          "from": {
+            "data": {
+              "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/malaysia_boundaries.topojson",
+              "format": {"type": "topojson", "feature": "MYSADM1gbOpen"}
+            },
+            "key": "properties.shapeName",
+            "fields": ["properties", "type", "geometry"]
+          }
+        }
+      ],
+      "mark": {"type": "geoshape"},
+      "encoding": {
+        "color": {
+          "field": "State_Average_API",
+          "type": "quantitative",
+          "bin": {"maxbins": 5},
+          "scale": {"scheme": "reds"},
+          "legend": {
+            "title": "Air Pollution Index",
+            "orient": "right",
+            "direction": "vertical",
+            "labelFontSize": 10,
+            "titleFontSize": 11,
+            "offset": 5
+          }
+        },
+        "tooltip": [
+          {"field": "State", "title": "State"},
+          {"field": "Year", "title": "Year"},
+          {"field": "State_Average_API", "title": "Average API", "format": ".2f"}
+        ]
+      }
+    }
+  ],
+  "config": {
+    "title": {"anchor": "middle"},
+    "legend": {"labelLimit": 100, "padding": 0},
+    "view": {"stroke": "transparent"}
+  }
+}
