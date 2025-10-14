@@ -11,9 +11,10 @@ Year,State,State_Average_API
 2017,Perlis,26.76
 2017,Sabah,20.96
 2017,Sarawak,20.7
+2017,Selangor,60.12
 2017,Terengganu,25.18
-2017,W.P. Labuan,35.28
-2017,W.P. Putrajaya,33.97
+2017,Labuan,35.28
+2017,Putrajaya,33.97
 2018,Johor,34.17
 2018,Kedah,32.46
 2018,Kelantan,34.11
@@ -28,8 +29,8 @@ Year,State,State_Average_API
 2018,Sarawak,29.29
 2018,Selangor,43.51
 2018,Terengganu,31.19
-2018,W.P. Labuan,29.31
-2018,W.P. Putrajaya,41.84
+2018,Labuan,29.31
+2018,Putrajaya,41.84
 2019,Johor,54.79
 2019,Kedah,50.6
 2019,Kelantan,54.27
@@ -44,8 +45,8 @@ Year,State,State_Average_API
 2019,Sarawak,47.53
 2019,Selangor,64.89
 2019,Terengganu,50.68
-2019,W.P. Labuan,45.22
-2019,W.P. Putrajaya,65.5
+2019,Labuan,45.22
+2019,Putrajaya,65.5
 2020,Johor,42.51
 2020,Kedah,44.07
 2020,Kelantan,49.72
@@ -60,8 +61,8 @@ Year,State,State_Average_API
 2020,Sarawak,33.13
 2020,Selangor,56.76
 2020,Terengganu,42.9
-2020,W.P. Labuan,41.15
-2020,W.P. Putrajaya,54.21
+2020,Labuan,41.15
+2020,Putrajaya,54.21
 2021,Johor,46.75
 2021,Kedah,43.34
 2021,Kelantan,50.56
@@ -76,8 +77,8 @@ Year,State,State_Average_API
 2021,Sarawak,35.15
 2021,Selangor,62.4
 2021,Terengganu,43.33
-2021,W.P. Labuan,43.67
-2021,W.P. Putrajaya,53.46
+2021,Labuan,43.67
+2021,Putrajaya,53.46
 2022,Johor,41.4
 2022,Kedah,47.15
 2022,Kelantan,53.44
@@ -92,5 +93,5 @@ Year,State,State_Average_API
 2022,Sarawak,36.58
 2022,Selangor,60.95
 2022,Terengganu,42.2
-2022,W.P. Labuan,39.79
-2022,W.P. Putrajaya,50.01
+2022,Labuan,39.79
+2022,Putrajaya,50.01
