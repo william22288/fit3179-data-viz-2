@@ -146,7 +146,7 @@
             "labelLimit": 50000,
             "orient": "bottom",
             "titleLimit": 50000,
-            "padding": 20,
+            "padding": 30,
             "direction": "vertical"
           }
         },

@@ -1,0 +1,229 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "title": {
+    "text": "Yearly Air Pollutant Concentrations",
+    "anchor": "middle"
+  },
+  "width": 650,
+  "height": 650,
+  "autosize": {"type": "none"},
+  "padding": {"top": 30, "bottom": 60, "left": 160, "right": 160},
+  "signals": [
+    {"name": "radius", "update": "min(width, height) / 2 - 100"},
+    {
+      "name": "selected_year",
+      "value": 2022,
+      "bind": {
+        "input": "radio",
+        "options": [2017, 2018, 2019, 2020, 2021, 2022],
+        "labels": ["2017", "2018", "2019", "2020", "2021", "2022"],
+        "name": "Select Year: "
+      }
+    }
+  ],
+  "data": [
+    {
+      "name": "pollutants",
+      "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/yearly_average_air_pollutants.csv",
+      "format": {"type": "csv", "parse": {"year": "integer", "concentration": "number"}},
+      "transform": [
+        {
+          "type": "project",
+          "fields": ["year", {"field": "pollutant", "as": "metric"}, {"field": "concentration", "as": "value"}],
+          "as": ["year", "metric", "value"]
+        },
+        {
+          "type": "window",
+          "ops": ["max"],
+          "fields": ["value"],
+          "as": ["max_value"],
+          "groupby": ["metric"]
+        },
+        {
+          "type": "formula",
+          "as": "normalized",
+          "expr": "datum.value / datum.max_value"
+        },
+        {"type": "filter", "expr": "datum.year == selected_year"}
+      ]
+    },
+    {
+      "name": "metrics",
+      "source": "pollutants",
+      "transform": [{"type": "aggregate", "groupby": ["metric"]}]
+    }
+  ],
+  "scales": [
+    {
+      "name": "angular",
+      "type": "point",
+      "range": {"signal": "[-PI, PI]"},
+      "padding": 0.5,
+      "domain": {"data": "pollutants", "field": "metric"}
+    },
+    {
+      "name": "radial",
+      "type": "linear",
+      "range": {"signal": "[0, radius]"},
+      "zero": true,
+      "nice": false,
+      "domain": [0, 1]
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "pollutants", "field": "year"},
+      "range": {"scheme": "category10"}
+    }
+  ],
+  "legends": [{"fill": "color", "title": "Year", "orient": "bottom-right"}],
+  "encode": {
+    "enter": {
+      "x": {"signal": "width / 2"},
+      "y": {"signal": "height / 2"}
+    }
+  },
+  "marks": [
+    {
+      "type": "group",
+      "name": "categories",
+      "zindex": 1,
+      "from": {
+        "facet": {"data": "pollutants", "name": "facet", "groupby": ["year"]}
+      },
+      "marks": [
+        {
+          "type": "line",
+          "name": "metric-line",
+          "from": {"data": "facet"},
+          "encode": {
+            "enter": {
+              "interpolate": {"value": "linear-closed"},
+              "x": {
+                "signal": "scale('radial', datum.normalized) * cos(scale('angular', datum.metric))"
+              },
+              "y": {
+                "signal": "scale('radial', datum.normalized) * sin(scale('angular', datum.metric))"
+              },
+              "stroke": {"scale": "color", "field": "year"},
+              "strokeWidth": {"value": 2},
+              "fill": {"scale": "color", "field": "year"},
+              "fillOpacity": {"value": 0.1}
+            }
+          }
+        },
+        {
+          "type": "symbol",
+          "name": "points",
+          "from": {"data": "facet"},
+          "encode": {
+            "enter": {
+              "x": {
+                "signal": "scale('radial', datum.normalized) * cos(scale('angular', datum.metric))"
+              },
+              "y": {
+                "signal": "scale('radial', datum.normalized) * sin(scale('angular', datum.metric))"
+              },
+              "size": {"value": 80},
+              "fill": {"scale": "color", "field": "year"},
+              "stroke": {"value": "white"},
+              "strokeWidth": {"value": 1.5}
+            },
+            "update": {
+              "tooltip": {
+                "signal": "{'Year': datum.year, 'Pollutant': datum.metric, 'Concentration (Average)': format(datum.value, '0.3f') + ((datum.metric == 'PM 10' || datum.metric == 'PM 2.5') ? ' µg/m³' : ' ppm')}"
+              }
+            }
+          }
+        },
+        {
+          "type": "rule",
+          "name": "radial-grid",
+          "from": {"data": "metrics"},
+          "zindex": 0,
+          "encode": {
+            "enter": {
+              "x": {"value": 0},
+              "y": {"value": 0},
+              "x2": {"signal": "radius * cos(scale('angular', datum.metric))"},
+              "y2": {"signal": "radius * sin(scale('angular', datum.metric))"},
+              "stroke": {"value": "lightgray"},
+              "strokeWidth": {"value": 1}
+            }
+          }
+        },
+        {
+          "type": "text",
+          "name": "metric-label",
+          "from": {"data": "metrics"},
+          "zindex": 1,
+          "encode": {
+            "enter": {
+              "x": {
+                "signal": "(radius + 30) * cos(scale('angular', datum.metric))"
+              },
+              "y": {
+                "signal": "(radius + 30) * sin(scale('angular', datum.metric))"
+              },
+              "text": {"field": "metric"},
+              "align": [
+                {
+                  "test": "abs(scale('angular', datum.metric)) > PI / 2",
+                  "value": "right"
+                },
+                {"value": "left"}
+              ],
+              "baseline": [
+                {"test": "scale('angular', datum.metric) > 0", "value": "top"},
+                {
+                  "test": "scale('angular', datum.metric) == 0",
+                  "value": "middle"
+                },
+                {"value": "bottom"}
+              ],
+              "fill": {"value": "black"},
+              "fontSize": {"value": 16}
+            }
+          }
+        },
+        {
+          "type": "line",
+          "name": "outer-line",
+          "from": {"data": "radial-grid"},
+          "encode": {
+            "enter": {
+              "interpolate": {"value": "linear-closed"},
+              "x": {"field": "x2"},
+              "y": {"field": "y2"},
+              "stroke": {"value": "lightgray"},
+              "strokeWidth": {"value": 1}
+            }
+          }
+        },
+        {
+          "type": "text",
+          "from": {"data": "facet"},
+          "encode": {
+            "enter": {
+              "x": {
+                "signal": "scale('radial', datum.normalized + 0.08) * cos(scale('angular', datum.metric))"
+              },
+              "y": {
+                "signal": "scale('radial', datum.normalized + 0.08) * sin(scale('angular', datum.metric))"
+              },
+              "text": {"signal": "format(datum.value, '0.3f') + ((datum.metric == 'PM 10' || datum.metric == 'PM 2.5') ? ' µg/m³' : ' ppm')"},
+              "align": {"value": "center"},
+              "baseline": {"value": "middle"},
+              "fill": {"value": "black"},
+              "fontSize": {"value": 14}
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "config": {
+    "title": {"font": "serif", "fontSize": 20, "fontWeight": "bold"},
+    "legend": {"titleFontSize": 16, "labelFontSize": 14}
+  }
+}

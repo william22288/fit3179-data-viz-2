@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Pie chart showing percentage of API stations across Peninsular Malaysia, Sabah, and Sarawak",
+  "description": "Pie chart showing percentage of API stations across Peninsular Malaysia and East Malaysia",
   "width": 500,
   "height": 400,
   "data": {
@@ -8,7 +8,7 @@
   },
   "transform": [
     {
-      "calculate": "datum.state == 'Sabah' || datum.state == 'W.P. Labuan' ? 'Sabah' : datum.state == 'Sarawak' ? 'Sarawak' : 'Peninsular Malaysia'",
+      "calculate": "datum.state == 'Sabah' || datum.state == 'W.P. Labuan' || datum.state == 'Sarawak' ? 'East Malaysia' : 'Peninsular Malaysia'",
       "as": "Region"
     },
     {
@@ -46,7 +46,7 @@
           "field": "Region",
           "type": "nominal",
           "scale": {
-            "range": ["#999999", "#E69F00", "#56B4E9"] 
+            "range": ["#008080", "#999999"] 
           },
           "legend": null
         },

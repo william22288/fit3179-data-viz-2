@@ -1,0 +1,192 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "width": 1250,
+  "height": 450,
+  "padding": 5,
+  "style": "container",
+  "title": {
+    "text": "API Monitoring Station Distribution and Regional Filtering",
+    "anchor": "middle",
+    "fontSize": 20,
+    "font": "serif",
+    "offset": 25
+  },
+  "data": [
+    {
+      "name": "stations",
+      "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/main/data/Stations_Information.csv",
+      "format": {"type": "csv", "parse": "auto"},
+      "transform": [
+        {
+          "type": "formula",
+          "as": "Region",
+          "expr": "datum.state == 'Sabah' || datum.state == 'W.P. Labuan' || datum.state == 'Sarawak' ? 'East Malaysia' : 'Peninsular Malaysia'"
+        }
+      ]
+    },
+    {
+      "name": "regional_summary",
+      "source": "stations",
+      "transform": [
+        {"type": "aggregate", "groupby": ["Region"], "ops": ["count"], "as": ["StationCount"]},
+        {"type": "joinaggregate", "ops": ["sum"], "fields": ["StationCount"], "as": ["Total"]},
+        {"type": "formula", "as": "Percentage", "expr": "datum.StationCount / datum.Total"},
+        {"type": "collect", "sort": {"field": "StationCount", "order": "descending"}},
+        {"type": "pie", "field": "StationCount", "startAngle": 0, "endAngle": 6.283},
+        {"type": "formula", "as": "midpoint", "expr": "(datum.startAngle + datum.endAngle) / 2"}
+      ]
+    },
+    {
+      "name": "filtered_stations",
+      "source": "stations",
+      "transform": [
+        {"type": "filter", "expr": "selectedRegion === null || datum.Region === selectedRegion"}
+      ]
+    },
+    {
+      "name": "state_summary",
+      "source": "filtered_stations",
+      "transform": [
+        {"type": "aggregate", "groupby": ["state", "Region"], "ops": ["count"], "as": ["StationCount"]},
+        {"type": "collect", "sort": {"field": "StationCount", "order": "descending"}},
+        {"type": "joinaggregate", "ops": ["sum"], "fields": ["StationCount"], "as": ["RegionTotal"]},
+        {"type": "formula", "as": "Percentage", "expr": "datum.RegionTotal > 0 ? datum.StationCount / datum.RegionTotal : 0"}
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "selectedRegion",
+      "value": null,
+      "on": [
+        {"events": "arc:click", "update": "datum.Region === selectedRegion ? null : datum.Region"},
+        {"events": "dblclick", "update": "null"}
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": ["Peninsular Malaysia", "East Malaysia"],
+      "range": [ "#999999","#008080"] 
+    },
+    {
+      "name": "yscale",
+      "type": "band",
+      "domain": {
+        "data": "state_summary",
+        "field": "state",
+        "sort": {"op": "sum", "field": "StationCount", "order": "descending"},
+        "predicate": "datum.StationCount > 0"
+      },
+      "range": [0, 420],
+      "paddingInner": 0.1
+    }
+  ],
+  "marks": [
+    {
+      "type": "group",
+      "name": "pie_chart",
+      "encode": {
+        "update": {
+          "x": {"value": 150},
+          "y": {"value": 225},
+          "height": {"value": 450},
+          "width": {"value": 500}
+        }
+      },
+      "marks": [
+        {
+          "type": "arc",
+          "from": {"data": "regional_summary"},
+          "encode": {
+            "update": {
+              "startAngle": {"field": "startAngle"},
+              "endAngle": {"field": "endAngle"},
+              "outerRadius": {"value": 180},
+              "innerRadius": {"value": 0},
+              "stroke": {"value": "black"},
+              "fill": {"scale": "color", "field": "Region"},
+              "cursor": {"value": "pointer"},
+              "opacity": {
+                "signal": "selectedRegion === null || datum.Region === selectedRegion ? 1 : 0.2"
+              },
+              "tooltip": {
+                "signal": "'Region: ' + datum.Region + '\\nNumber of Stations: ' + format(datum.StationCount, ',') + '\\nPercentage: ' + format(datum.Percentage, '.1%')"
+              }
+            }
+          }
+        },
+        {
+          "type": "text",
+          "from": {"data": "regional_summary"},
+          "encode": {
+            "update": {
+              "x": {"signal": "-180 * cos(datum.midpoint) * 0.6"},
+              "y": {"signal": "180 * sin(datum.midpoint) * 0.6"},
+              "align": {"value": "center"},
+              "baseline": {"value": "middle"},
+              "text": {
+                "signal": "datum.Region + '\\n' + format(datum.Percentage, '.1%')"
+              },
+              "fill": {"value": "black"},
+              "fontSize": {"value": 13},
+              "fontWeight": {"value": "bold"}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "bar_chart",
+      "encode": {
+        "update": {
+          "x": {"value": 550},
+          "y": {"value": 25},
+          "height": {"value": 420},
+          "width": {"value": 100}
+        }
+      },
+      "scales": [
+        {
+          "name": "xscale_bar",
+          "type": "linear",
+          "domain": { "data": "state_summary", "field": "Percentage" },
+          "range": [0, 700],
+          "nice": true
+        }
+      ],
+      "axes": [
+        {
+          "orient": "bottom",
+          "scale": "xscale_bar",
+          "title": "Percentage of Stations",
+          "format": ".1%",
+          "grid": true,
+           "tickCount": 5
+        },
+        {"orient": "left", "scale": "yscale", "title": "State"}
+      ],
+      "marks": [
+        {
+          "type": "rect",
+          "from": {"data": "state_summary"},
+          "encode": {
+            "update": {
+              "y": {"scale": "yscale", "field": "state"},
+              "height": {"scale": "yscale", "band": 1},
+              "x": {"scale": "xscale_bar", "value": 0},
+              "x2": {"scale": "xscale_bar", "field": "Percentage"},
+              "fill": {"value": "grey"},
+              "tooltip": {
+                "signal": "'State: ' + datum.state + '\\nRegion: ' + datum.Region + '\\nNumber of Stations: ' + format(datum.StationCount, ',') + '\\nPercentage: ' + format(datum.Percentage, '.1%')"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -50,6 +50,13 @@
           "groupby": ["year"]
         }
       ],
+      "selection": {
+    "state_highlight": {
+      "type": "multi",
+      "fields": ["state"],
+      "bind": "legend"
+    }
+  },
       "mark": {"type": "line", "point": true},
       "encoding": {
         "x": {"field": "year", "type": "ordinal", "title": "Year"},
@@ -66,6 +73,10 @@
                 "#f7b6d2", "#c7c7c7", "#dbdb8d", "#9edae5"
             ]
           }
+        },
+        "opacity": {
+          "condition": {"selection": "state_highlight", "value": 1},
+          "value": 0.15
         },
         "tooltip": [
           {"field": "state", "type": "nominal", "title": "State"},

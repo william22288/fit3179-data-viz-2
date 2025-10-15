@@ -11,12 +11,33 @@
   "width": 780,
   "height": 550,
   "padding": {"top": 0, "bottom": 10, "left": 10, "right": 100},
-  "projection": {
-    "type": "mercator",
-    "center": [110, 4],
-    "scale": 2000
-  },
+  
   "params": [
+    {
+      "name": "center_to",
+      "value": [110, 4],
+      "bind": {
+        "input": "select",
+        "options": [
+          [110, 4],
+          [102.0, 4.0],
+          [114.0, 4.5]
+        ],
+        "labels": ["Whole Malaysia","Peninsular Malaysia", "East Malaysia"],
+        "name": "Map Centre: "
+      }
+    },
+    {
+      "name": "zoom",
+      "value": 2000,
+      "bind": {
+        "input": "range",
+        "min": 500,
+        "max": 5000,
+        "step": 100,
+        "name": "Zoom: "
+      }
+    },
     {
       "name": "YearSelector",
       "value": 2017,
@@ -25,29 +46,29 @@
         "min": 2017,
         "max": 2022,
         "step": 1,
-        "name": "Year: "
+        "name": "Selected Year: "
       }
     }
   ],
+  "projection": {
+    "type": "mercator",
+    "center": {"expr": "center_to"},
+    "scale": {"expr": "zoom"}
+  },
   "layer": [
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/ne_10m_ocean.json",
-        "format": {"type": "topojson", "feature": "ne_10m_ocean"}
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": { "type": "topojson", "feature": "oceans" }
       },
-      "mark": {"type": "geoshape", "fill": "#cce5ff", "stroke": "none"}
+      "mark": { "type": "geoshape", "fill": "#cce7ff" }
     },
     {
       "data": {
-        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/ne_110m_graticules_.json",
-        "format": {"type": "topojson", "feature": "ne_110m_graticules_1"}
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/js/ne_10m_graticules_5.topojson",
+        "format": { "type": "topojson", "feature": "ne_10m_graticules_5" }
       },
-      "mark": {
-        "type": "geoshape",
-        "fill": "none",
-        "stroke": "lightgray",
-        "strokeWidth": 0.5
-      }
+      "mark": { "type": "geoshape", "fill": null, "stroke": "#ddd" }
     },
     {
       "data": {
