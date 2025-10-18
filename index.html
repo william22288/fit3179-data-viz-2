@@ -18,6 +18,9 @@
       rel="stylesheet"
     />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
     <!-- Styles -->
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
@@ -29,6 +32,7 @@
         <h1>in Malaysia</h1>
         <h4>
           This visualization provides an interactive overview of Malaysia’s
+          <br>
           air pollution landscape across recent years.
         </h4>
       </div>
@@ -66,7 +70,7 @@
         </div>
       </div> -->
 
-      <div id="content">
+      <!-- <div id="content">
       <div class="section">
         <div class="visualisation" id="choropleth_api" style="width: 90vw; margin: 0 auto;"></div>
         <div class="two-col-grid">
@@ -84,10 +88,44 @@
           </h3>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <section class="pure-g">
+      <div class="pure-u-1">
+        <h2 class="section-header">State of the Air: API Across Malaysia </h2>
+      </div>
+
+      <!-- Chart (full width) -->
+      <div class="pure-u-1">
+        <div class="chart-container2" style="margin-left: 20px;">
+          <div id="choropleth_api"></div>
+        </div>
+      </div>
+
+      <!-- Text below the chart in two columns -->
+      <div class="pure-u-1">
+        <div class="text-container two-col-grid" style="padding: 120px;">
+          <h3 class="chart-title" style="padding: 0px;">Where is Malaysia's Air Cleanest?</h3>
+          
+          <p>
+            States with <strong style="color: #8A0813;">darker shades</strong> have 
+            <strong style="color: #8A0813;">more severe air pollution</strong>, often linked to 
+            urban lifestyles. 
+            <strong style="color:#FCAE91;">Lighter regions</strong> show 
+            <strong style="color: #FCAE91">lower API levels</strong>, indicating less pollution.
+          </p>
+          <p>
+            This interactive choropleth map displays the <strong>average Air Pollution Index</strong> (API) by state in Malaysia from 2017 to 2022.
+          </p>
+          <p>
+            Users can select a specific year to view state-level API values and use controls to zoom and change the map centre for a focused view of Peninsular or East Malaysia.
+          </p>
+        </div>
+      </div>
+    </section>
 
     
-      <div class="section">
+      <!-- <div class="section">
         <div class="visualisation" id="api_rank"></div>
         <div class="two-col-grid">
           <div class="text-content-title">
@@ -99,9 +137,32 @@
           </div>
           <h3 class="paragraph">The bump chart illustrates the shift in ranking of average yearly Air Pollution Index (API) values among Malaysian states and federal territories from 2017 to 2022. Each area can be selected individually through the legend. Areas such as Selangor, Kuala Lumpur, and Putrajaya consistently rank higher, indicating poorer air quality, while areas like Sarawak, Labuan, and Sabah tend to maintain lower API ranks, reflecting cleaner air. The variations in ranking over the years highlight regional differences in pollution levels and changing environmental conditions, showing that air quality is not uniform across Malaysia and can fluctuate significantly between states and years.</h3>
         </div>
+      </div> -->
+
+      <section class="pure-g">
+      <div class="pure-u-1">
+        <h2 class="section-header">Average Yearly API Ranking</h2>
+      </div>
+      
+      <!-- Chart on the right, text on the left -->
+      <div class="pure-u-1 pure-u-lg-2-5">
+        <div class="text-container">
+          <h3 class="chart-title">Understanding API Ranking Trends</h3>
+          <p class="chart-description">
+            The bump chart illustrates the shift in ranking of average yearly Air Pollution Index (API) values among Malaysian states and federal territories from 2017 to 2022. Each area can be selected individually through the legend. Areas such as <strong style="color: #f7b6d2;">Selangor</strong>, <strong style="color: #8c564b;">Kuala Lumpur</strong>, and <strong style="color: #7f7f7f;">Negeri Sembilan</strong> consistently rank higher, indicating poorer air quality, while areas like <strong style="color: #c49c94;">Sarawak</strong>, <strong style="color: #dbdb8d;">Labuan</strong>, and <strong style="color: #c5b0d5;">Sabah</strong> tend to maintain lower API ranks, reflecting cleaner air.<br><br> The variations in ranking over the years highlight regional differences in pollution levels and changing environmental conditions, showing that air quality is not uniform across Malaysia and can fluctuate significantly between states and years.
+          </p>
+        </div>
       </div>
 
-      <!-- Section 2 -->
+      <!-- Chart on the right with margin -->
+      <div class="pure-u-1 pure-u-lg-3-5">
+        <div class="chart-container" >
+          <div id="api_rank"></div>
+        </div>
+      </div>
+    </section>      
+
+      <!-- Section 2
       <div class="section">
         <div class="visualisation" id="holistic_api" style="width: 100vw"></div>
         <div class="two-col-grid">
@@ -114,7 +175,41 @@
           </div>
           <h3 class="paragraph">The Air Pollution Index (API) of Peninsular Malaysia peaked at 56.40 in 2019, surpassing the national average of 53.51. Sabah and Sarawak maintain lower API values, ranging between 33 – 48, which pull down the overall Malaysia average. After a sharp decline in 2020, likely linked to reduced human activity, Peninsular Malaysia’s API remains elevated compared to Sabah and Sarawak, while the national API mirrors the regional trends, staying between 43.84 and 45.64 from 2020 to 2022. Overall, the diagram highlights the disproportionate contribution of Peninsular Malaysia to the country’s air pollution, while Sabah and Sarawak maintain relatively cleaner air.</h3>
         </div>
+      </div> -->
+
+      <section class="pure-g">
+      <div class="pure-u-1">
+        <h2 class="section-header">API Comparison: An Overview </h2>
       </div>
+
+      <!-- Chart (full width) -->
+      <div class="pure-u-1">
+        <div class="chart-container2" style="margin-left: 20px;">
+          <div id="holistic_api"></div>
+        </div>
+      </div>
+
+      <!-- Text below the chart in two columns -->
+      <div class="pure-u-1">
+        <div class="text-container two-col-grid" style="padding: 120px;";">
+          <h3 class="chart-title" style="padding: 0px;">API Shifts in Malaysia</h3>
+          
+          <p>The Air Pollution Index (API) of <strong style="color: #999999;">Peninsular Malaysia</strong> peaked at 56.40 in
+            2019, surpassing the national average of 53.51. <strong style="color: #c5b0d5;">Sabah</strong> and <strong
+              style="color: #c49c94;">Sarawak</strong> maintain lower API values, ranging between 33 – 48, which pull down the
+            overall Malaysia average.</p>
+          
+          <p>After a sharp decline in 2020, likely linked to reduced human activity, <strong style="color: #999999;">Peninsular
+              Malaysia’s</strong> API remains elevated compared to <strong style="color: #c5b0d5;">Sabah</strong> and <strong
+              style="color: #c49c94;">Sarawak</strong>, while the national API mirrors the regional trends, staying between 43.84
+            and 45.64 from 2020 to 2022.</p>
+          
+          <p>Overall, the diagram highlights the disproportionate contribution of <strong style="color: #999999;">Peninsular
+              Malaysia</strong> to the country’s air pollution, while <strong style="color: #c5b0d5;">Sabah</strong> and <strong
+              style="color: #c49c94;">Sarawak</strong> maintain relatively cleaner air.</p>
+          </div>
+      </div>
+    </section>
 
       <!-- Section 3 -->
       <!-- <div class="section">
@@ -130,7 +225,7 @@
           <h3 class="paragraph">The majority of air pollution index (API) monitoring stations are concentrated in Peninsular Malaysia, which hosts 73.8% of the total stations, while Sarawak and Sabah account for 16.9% and 9.2%, respectively. This indicates a regional imbalance in monitoring coverage, with the western region being far better monitored than the eastern states.</h3>
         </div>
       </div> -->
-
+<!-- 
       <div class="section">
         <div class="visualisation" id="horizontal_brush"></div>
         <div class="two-col-grid">
@@ -145,7 +240,41 @@
 
             The API Monitoring Station Distribution in Malaysia is shown above. The pie chart shows that the vast majority of Air Pollution Index (API) monitoring stations are located in Peninsular Malaysia (73.8%), while East Malaysia (26.2%) hosts the remainder. The interactive bar chart, which is filterable by clicking a segment of the pie chart, displays the percentage distribution of these stations across individual states and federal territories. Sarawak and Johor have the highest percentages of stations overall, indicating the most intensive monitoring coverage in those states.</h3>
         </div>
-      </div>
+      </div> -->
+
+      <section class="pure-g horizontal-brush-section">
+  <div class="pure-u-1">
+    <h2 class="section-header">Distribution of API Monitoring Stations</h2>
+  </div>
+
+  <div class="pure-u-1">
+    <div class="chart-container2" style="margin-left: 20px;">
+      <div id="horizontal_brush"></div>
+    </div>
+  </div>
+
+  <div class="pure-u-1">
+    <div class="text-container two-col-grid" style="padding: 120px;">
+      <h3 class="chart-title">API Monitoring Coverage</h3>
+      <p>
+        The API Monitoring Station Distribution in Malaysia is shown above. The pie chart shows that the vast majority
+        of Air Pollution Index (API) monitoring stations are located in 
+        <strong style="color: #BA55D3;">Peninsular Malaysia</strong> (73.8%), while 
+        <strong style="color:#008080;">East Malaysia</strong> (26.2%) hosts the remainder.
+      </p>
+      <p>
+        The interactive bar chart, which is filterable by clicking a segment of the pie chart, displays the percentage 
+        distribution of these stations across individual states and federal territories.
+      </p>
+      <p>
+        <strong style="color: #c49c94;">Sarawak</strong> and 
+        <strong style="color: #1f77b4;">Johor</strong> have the highest percentages of stations overall, indicating 
+        the most intensive monitoring coverage in those states.
+      </p>
+    </div>
+  </div>
+</section>
+
 
       <!-- Section 4 -->
       <!-- <div class="section">
@@ -165,7 +294,7 @@
       
 
      
-      <div class="section">
+      <!-- <div class="section">
         <div class="visualisation" id="api_comparison" style="width: 100vw"></div>
         <div class="two-col-grid">
           <div class="text-content-title">
@@ -177,10 +306,44 @@
           </div>
           <h3 class="paragraph">The multiline chart allows users to compare daily Air Pollution Index (API) trends across up to three selected monitoring stations from 2017 to 2022. By using the dropdown menus and year sliders, users can explore how air quality varies over time and between locations. The chart reveals fluctuations in pollution levels, seasonal patterns, and notable peaks or declines, enabling a clearer understanding of how different regions experience air quality changes throughout the years.</h3>
         </div>
-      </div>
+      </div> -->
+
+      <section class="pure-g">
+        <div class="pure-u-1">
+          <h2 class="section-header">
+            Daily API Trends Across Selected Stations
+          </h2>
+        </div>
+      
+        <div class="pure-u-1">
+          <div class="chart-container2" style="margin-left: 20px;">
+            <div id="api_comparison"></div>
+          </div>
+        </div>
+      
+        <div class="pure-u-1">
+          <div class="text-container two-col-grid" style="padding: 120px;">
+      
+            <h3 class="chart-title" style="padding: 0px;">
+              Daily API Trends Across Selected Stations
+            </h3>
+      
+            <p>
+              The multiline chart allows users to compare daily Air Pollution Index (API) trends across up to three selected
+              monitoring stations from 2017 to 2022.</p>
+              <p>By using the dropdown menus and year sliders, users can explore how air
+              quality varies over time and between locations.</p>
+            <p>The chart reveals fluctuations in pollution levels, seasonal patterns, and notable peaks or declines, enabling
+              a clearer understanding of how different regions experience air quality changes throughout the years.
+            </p>
+      
+          </div>
+        </div>
+      </section>
+      
 
       <!-- Section 7 -->
-      <div class="section">
+      <!-- <div class="section">
         <div class="visualisation" id="vertical_brush"></div>
         <div class="two-col-grid">
           <div class="text-content-title">
@@ -190,13 +353,48 @@
             </h2>
             <div class="divider"></div>
           </div>
-          <h3 class="paragraph">The proportional symbol map visualizes the monthly average Air Pollution Index (API) across Malaysia from 2020 to 2022, showing both air quality and population distribution. Darker red circles indicate areas with higher air pollution levels, while larger circles represent more populated locations. By selecting different months through the dropdown menu, users can observe spatial and temporal variations in air quality, identifying pollution hotspots and seasonal patterns, particularly in densely populated urban regions.</h3>
+          <h3 class="paragraph">The average Air Pollution Index (API) by station in Malaysia from 2020 to 2022 is displayed, linking a proportional symbol map to a time-series line chart. Users can perform brushing on the monthly line chart, which shows Malaysia's overall average API trend to dynamically filter and display the corresponding station-level average API data on the map for a selected time range, thereby highlighting spatial changes in air quality over specific months or years.</h3>
         </div>
-      </div>
+      </div> -->
+
+      <section class="pure-g">
+        <div class="pure-u-1">
+          <h2 class="section-header">
+            Monthly Average API and Population Distribution across Malaysia
+          </h2>
+        </div>
+      
+        <div class="pure-u-1">
+          <div class="chart-container2" style="margin-left: 20px;">
+            <div id="vertical_brush"></div>
+          </div>
+        </div>
+      
+        <div class="pure-u-1">
+          <div class="text-container two-col-grid" style="padding: 60px;">
+      
+            <h3 class="chart-title" style="padding: 0px;">
+              Malaysia's Air Quality Hotspots
+            </h3>
+      
+            <p>
+              The average Air Pollution Index (API) by station in <strong style="color:#9370DB;">Malaysia</strong> from 2020
+              to 2022 is displayed, linking a proportional symbol map to a time-series line chart.</p>
+            <p>Users can perform brushing on the monthly line chart, which shows <strong
+                style="color:#9370DB;">Malaysia's</strong> overall average API trend to dynamically filter and display the
+              corresponding station-level average API data on the map for a selected time range.</p>
+            <p>Thus, it enables users to visually correlate regional changes in the average Air Pollution Index (API) over a
+              selected time period with the population distribution across the locations of individual Malaysian monitoring stations.</p>
+      
+      
+      
+          </div>
+        </div>
+      </section>
 
       
       <!-- add on radar chart -->
-      <div class="section">
+      <!-- <div class="section">
         <div class="visualisation" id="radar_chart"></div>
         <div class="two-col-grid">
           <div class="text-content-title">
@@ -208,10 +406,34 @@
           </div>
           <h3 class="paragraph">The average concentration of six key air pollutants ('CO', 'NO₂', 'O₃', 'PM₁₀', 'PM₂.₅', 'SO₂') for a selected year between 2017 and 2022 is visualised. Concentrations for gaseous pollutants (ppm) and particulate matter (&mu;g/m&sup3;) are plotted on their respective axes, with the size of the enclosed area illustrating the overall pollutant concentration level for that year. Analysis across the years, such as comparing 2017 to 2022, generally reveals a decreasing trend in the concentrations of major pollutants like CO, NO₂, and PM₁₀.</h3>
         </div>
-      </div>
+      </div> -->
+
+      <section class="pure-g">
+    <div class="pure-u-1">
+        <h2 class="section-header" >
+            Key Air Pollutants in Malaysia: Concentration Trends
+        </h2>
+    </div>
+
+    <div class="pure-u-1 pure-u-lg-3-5">
+        <div class="chart-container" style="margin-left: -190px; margin-right: 10px;">
+            <div id="radar_chart"></div> 
+        </div>
+    </div>
+
+    <div class="pure-u-1 pure-u-lg-2-5">
+        <div class="text-container" style="margin-left: 0px; margin-top: 30px;">
+            <h3 class="chart-title">Key Pollutant <br>Concentrations (2017–2022)</h3>
+            
+            <p class="chart-description">
+                The average concentration of six key air pollutants (CO, NO₂, O₃, PM₁₀, PM₂.₅, SO₂) for a selected year between 2017 and 2022 is visualised. Concentrations for gaseous pollutants (ppm) and particulate matter (&mu;g/m&sup3;) are plotted on their respective axes, with the size of the enclosed area illustrating the overall pollutant concentration level for that year.<br><br/> Analysis across the years, such as comparing 2017 to 2022, generally reveals a decreasing trend in the concentrations of major pollutants like CO, NO₂, and PM₁₀.
+            </p>
+        </div>
+    </div>
+</section>
 
       
-      <div class="section">
+      <!-- <div class="section">
         <div class="visualisation" id="grouped_bar_api"></div>
         <div class="two-col-grid">
           <div class="text-content-title">
@@ -224,10 +446,34 @@
           <h3 class="paragraph">The grouped bar chart shows that Peninsular Malaysia consistently has a higher average Air Pollution Index (API) compared to Sabah and Sarawak from 2017 to 2022, indicating more severe air pollution in the peninsula. Sabah and Sarawak maintain lower and relatively similar API levels, with occasional fluctuations. Overall, API increased sharply in 2019 across all regions, before stabilising around 2020–2022. The slider allows users to focus on specific time periods, revealing trends and changes in air quality over the years.</h3>
         </div>
       </div>
+    </div> -->
+
+    <section class="pure-g">
+    <div class="pure-u-1">
+        <h2 class="section-header">
+            Regional Trends in Air Pollution Index (API) in Malaysia
+        </h2>
     </div>
 
+    <div class="pure-u-1 pure-u-lg-2-5">
+        <div class="text-container">
+            <h3 class="chart-title">Regional Trends in Air Pollution Index (API) in Malaysia</h3>
+            
+            <p class="chart-description">
+                The grouped bar chart shows that <strong style="color: #BA55D3;">Peninsular Malaysia</strong> consistently has a higher average Air Pollution Index (API) compared to <strong style="color: #c5b0d5;">Sabah</strong> and <strong style="color: #c49c94;">Sarawak</strong> from 2017 to 2022, indicating more severe air pollution in the peninsula. <strong style="color: #c5b0d5;">Sabah</strong> and <strong style="color: #c49c94;">Sarawak</strong> maintain lower and relatively similar API levels, with occasional fluctuations. <br></br>Overall, API increased sharply in 2019 across all regions, before stabilising around 2020–2022. The slider allows users to focus on specific time periods, revealing trends and changes in air quality over the years.
+            </p>
+        </div>
+    </div>
+
+    <div class="pure-u-1 pure-u-lg-3-5">
+        <div class="chart-container" style="margin-left: 160px;">
+            <div id="grouped_bar_api"></div>
+        </div>
+    </div>
+</section>
+
       <!-- Section 8 -->
-      <div class="section">
+      <!-- <div class="section">
         <div class="visualisation" id="stations_max_api"></div>
         <div class="two-col-grid">
           <div class="text-content-title">
@@ -240,7 +486,33 @@
           <h3 class="paragraph">The bar chart compares the maximum Air Pollution Index (API) recorded at selected monitoring stations across Malaysia in 2020. Cheras, Kuala Lumpur shows the highest API at 132, indicating the most severe air pollution among the stations, while Kota Kinabalu, Sabah records the lowest at 77. Overall, stations in Peninsular Malaysia, such as Melaka, Johor Bahru, and Penang, generally exhibit higher maximum API values compared to those in East Malaysia, highlighting regional differences in air quality likely influenced by urban activity and population density.</h3>
         </div>
       </div>
+    </div> -->
+    
+    <section class="pure-g">
+    <div class="pure-u-1">
+        <h2 class="section-header">
+            Peak Air Pollution at Key Stations: A 2020 Review
+        </h2>
     </div>
+
+    <div class="pure-u-1 pure-u-lg-3-5">
+        <div class="chart-container" style="margin-left: 0px; margin-right: 10px; margin-top: 40px; margin-bottom: 40px;">
+            <div id="stations_max_api"></div> 
+        </div>
+    </div>
+
+    <div class="pure-u-1 pure-u-lg-2-5">
+        <div class="text-container" style=" margin-top: 30px;">
+            <h3 class="chart-title">Maximum API <br>Across Selected Stations (2020)</h3>
+            
+            <p class="chart-description">
+                The bar chart compares the maximum Air Pollution Index (API) recorded at selected monitoring stations across Malaysia in 2020. Cheras, <strong style="color: #8c564b;">Kuala Lumpur</strong> shows the highest API at 132, indicating the most severe air pollution among the stations, while Kota Kinabalu, <strong style="color: #c5b0d5;">Sabah</strong> records the lowest at 77. <br></br>Overall, stations in <strong style="color: #BA55D3;">Peninsular Malaysia</strong>, such as <strong style="color: #e377c2;">Melaka</strong>, <strong style="color: #1f77b4;">Johor</strong>, and <strong style="color:#17becf;">Penang</strong>, generally exhibit higher maximum API values compared to those in <strong style="color: #008080;">East Malaysia</strong>, highlighting regional differences in air quality likely influenced by urban activity and population density.
+            </p>
+        </div>
+    </div>
+</section>
+
+    
 
     <footer>
       <p>© 2025 Tan Wei Liang | FIT3179, Monash University</p>

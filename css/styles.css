@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+
 * {
   padding: 0px;
   margin: 0px;
@@ -85,6 +87,66 @@ h4 {
   border-bottom: 4px solid #000;
 }
 
+.section-header {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3e2f1c;
+  border-bottom: 2px solid #978d6f;
+  margin: 20px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  padding: 0 20px 20px;
+}
+
+.text-container {
+  background: transparent;
+  padding: 20px;
+}
+
+.chart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #614e35;
+  padding-left: 20px;
+  margin: 0px;
+}
+
+.chart-description {
+  padding: 30px;
+  margin: 0px;
+  font-size: 17px;
+  color: #2c2a1f;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.text-container.two-col-grid p,
+.text-container.two-col-grid .chart-title {
+    /* Sets a fixed, narrow width (adjust 180px as needed for 10-word line breaks) */
+    max-width: 370px; 
+    /* Centers the narrow text block within the wide grid column */
+   text-align: justify;
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+/* Ensure the chart title aligns in the center of its narrow block */
+.text-container.two-col-grid .chart-title {
+    text-align: center;
+}
+
+.chart-container {
+  background: transparent;
+  padding: 10px 20px;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+
 #date {
   color: #000;
   font-family: Inter;
@@ -158,6 +220,9 @@ h4 {
   font-size: 22px;
   font-family: "Crimson Text";
 }
+
+
+
 
 .vega-bindings label {
   display: flex;
@@ -236,3 +301,80 @@ footer a:hover {
 .vega-embed.has-actions {
   padding-right: 0px !important;
 }
+
+.chart-container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.section-header {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3e2f1c;
+  border-bottom: 2px solid #978d6f;
+  margin: 20px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  padding: 0 20px 20px;
+}
+
+.text-container {
+  background: transparent;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Chart styling */
+.vega-embed {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.news-column {
+  column-count: 2;
+  column-gap: 90px;
+  text-align: justify;
+  font-size: 17px;
+}
+
+.horizontal-brush-section .text-container {
+  margin-top: -210px; /* adjust this until the text overlaps nicely */
+  padding: 60px;
+  position: relative;
+  z-index: 2; /* ensures text stays visible above the chart background */
+}
+
+/* prevent overlap for other charts */
+section:not(.horizontal-brush-section) .text-container {
+  margin-top: 0;
+}
+
+
+#radar_chart .vega-bindings {
+  justify-content: center;
+  margin-top: -105px; 
+
+}
+
+
+
+#grouped_bar_api .vega-bindings{
+  flex-direction: column !important;
+  margin-top: 20px !important;
+ 
+  align-items:  center !important;
+}
+
+.paragraph {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 1.6;
+  color: #333; /* optional for better readability */
+}
+

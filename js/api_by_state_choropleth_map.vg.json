@@ -8,20 +8,20 @@
     "anchor": "middle",
     "dy": -5
   },
-  "width": 780,
+  "width": "container",
   "height": 550,
-  "padding": {"top": 0, "bottom": 10, "left": 10, "right": 100},
+  "padding": {"top": 0, "bottom": 10, "left": 60, "right": 10},
   
   "params": [
     {
       "name": "center_to",
-      "value": [110, 4],
+      "value": [108, 4],
       "bind": {
         "input": "select",
         "options": [
-          [110, 4],
-          [102.0, 4.0],
-          [114.0, 4.5]
+          [108, 4],
+          [100.0, 4.0],
+          [112.5, 4.5]
         ],
         "labels": ["Whole Malaysia","Peninsular Malaysia", "East Malaysia"],
         "name": "Map Centre: "
@@ -46,14 +46,15 @@
         "min": 2017,
         "max": 2022,
         "step": 1,
-        "name": "Selected Year: "
+        "name": "Select Year: "
       }
     }
   ],
   "projection": {
     "type": "mercator",
     "center": {"expr": "center_to"},
-    "scale": {"expr": "zoom"}
+    "scale": {"expr": "zoom"},
+    "translate": [390, 275]
   },
   "layer": [
     {

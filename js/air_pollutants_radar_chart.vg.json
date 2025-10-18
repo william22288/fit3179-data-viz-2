@@ -1,22 +1,24 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "title": {
-    "text": "Yearly Air Pollutant Concentrations",
-    "anchor": "middle"
+    "text": "Yearly Air Pollutant Concentrations in Malaysia ",
+    "anchor": "middle",
+    "align": "right"
   },
   "width": 650,
   "height": 650,
   "autosize": {"type": "none"},
-  "padding": {"top": 30, "bottom": 60, "left": 160, "right": 160},
+  "padding": {"top": 0, "bottom": 60, "left": 160, "right": 160},
   "signals": [
     {"name": "radius", "update": "min(width, height) / 2 - 100"},
     {
       "name": "selected_year",
       "value": 2022,
       "bind": {
-        "input": "radio",
-        "options": [2017, 2018, 2019, 2020, 2021, 2022],
-        "labels": ["2017", "2018", "2019", "2020", "2021", "2022"],
+        "input": "range",
+        "min": 2017,
+        "max": 2022,
+        "step": 1,
         "name": "Select Year: "
       }
     }

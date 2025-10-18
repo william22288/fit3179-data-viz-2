@@ -15,17 +15,6 @@
         "step": 1,
         "name": "Start Year: "
       }
-    },
-    {
-      "name": "MaxYear",
-      "value": 2022,
-      "bind": {
-        "input": "range",
-        "min": 2017,
-        "max": 2022,
-        "step": 1,
-        "name": "End Year: "
-      }
     }
   ],
   "transform": [
@@ -63,7 +52,7 @@
       "as": "region"
     },
     {
-      "filter": "datum.year >= MinYear && datum.year <= MaxYear"
+      "filter": "datum.year >= MinYear "
     },
     {
       "aggregate": [
@@ -89,9 +78,16 @@
       "type": "nominal",
       "scale": {
         "domain": ["Peninsular Malaysia", "Sabah", "Sarawak"],
-        "range": ["#999999", "#E69F00", "#56B4E9"]
+        "range": ["#BA55D3", "#c5b0d5", "#c49c94"]
       },
-      "title": "Region"
+      "title": "Region",
+      "legend": {
+        "orient": "bottom",
+        "direction": "horizontal",
+        "title": "Region",
+        "labelFontSize": 12,
+        "symbolSize": 150
+      }
     },
     "xOffset": {"field": "region"},
     "tooltip": [

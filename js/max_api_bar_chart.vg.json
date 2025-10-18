@@ -1,42 +1,53 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Comparison of maximum API among selected stations in 2020",
-  "width": 600,
+  "width": 500,
   "height": 400,
   "layer": [
     {
-  "data": {
-    "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Yearly_Max_Min_API_across_Different_Stations.csv"
-  },
-  "transform": [
-    {"filter": "datum.Year == 2020"},
+      "data": {
+        "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/Yearly_Max_Min_API_across_Different_Stations.csv"
+      },
+      "transform": [
+        {"filter": "datum.Year == 2020"},
+        {
+          "filter": "indexof(['Bandaraya Melaka, Melaka', 'Cheras, Kuala Lumpur', 'Kota Kinabalu, Sabah', 'Kuching, Sarawak', 'Larkin, Johor Bahru', 'Miri, Sarawak', 'Seberang Jaya, Pulau Pinang'], trim(datum['Selected Stations'])) >= 0"
+        }
+      ],
+      "mark": {
+        "type": "bar"
+      },
+      "encoding": {
+        "x": {
+          "field": "Selected Stations",
+          "type": "nominal",
+          "axis": {"labelAngle": -20, "title": "Station"}
+        },
+        "y": {
+          "field": "Maximum",
+          "type": "quantitative",
+          "title": "Air Pollution Index (API)"
+        },
+        "color": {
+          "condition": [
+            {
+              "test": "datum['Selected Stations'] === 'Cheras, Kuala Lumpur'",
+              "value": "#8c564b"
+            },
+            {
+              "test": "datum['Selected Stations'] === 'Kota Kinabalu, Sabah '",
+              "value": "#c5b0d5"
+            }
+          ],
+          "value": "gray"
+        },
+        "tooltip": [
+          {"field": "Selected Stations","title":"Station", "type": "nominal"},
+          {"field": "Maximum", "title":"Maximum API", "type": "quantitative"}
+        ]
+      }
+    },
     {
-      "filter": "indexof(['Bandaraya Melaka, Melaka', 'Cheras, Kuala Lumpur', 'Kota Kinabalu, Sabah', 'Kuching, Sarawak', 'Larkin, Johor Bahru', 'Miri, Sarawak', 'Seberang Jaya, Pulau Pinang'], trim(datum['Selected Stations'])) >= 0"
-    }
-  ],
-  "mark": {
-    "type": "bar",
-    "color": "gray"
-  },
-  
-  "encoding": {
-    "x": {
-      "field": "Selected Stations",
-      "type": "nominal",
-      "axis": {"labelAngle": -20, "title": "Station"}
-    },
-    "y": {
-      "field": "Maximum",
-      "type": "quantitative",
-      "title": "Air Pollution Index (API)"
-    },
-    "tooltip": [
-      {"field": "Selected Stations","title":"Station", "type": "nominal"},
-      {"field": "Maximum", "title":"Maximum API", "type": "quantitative"}
-    ]
-  }
-},
-{
       "data": {
         "values": [{"dummy": 1}]
       },
@@ -85,9 +96,9 @@
         "cornerRadius": 4
       },
       "encoding": {
-        "x": {"value":180},
+        "x": {"value":150},
         "y": {"value": 120},
-        "x2": {"value": 315},
+        "x2": {"value": 285},
         "y2": {"value": 165}
       }
     },
@@ -107,14 +118,14 @@
         
       },
       "encoding": {
-        "x": {"value": 185},
+        "x": {"value": 155},
         "y": {"value": 125},
         "text": {"field": "text"}
       }
     }
-],
+  ],
   "title": {
-    "text": "Maximum Air Pollution Index (API) Across Selected Monitoring Stations in 2020",
+    "text": ["Maximum Air Pollution Index (API) Across Selected Monitoring Stations", "in 2020"],
     "anchor": "middle",
     "fontSize": 20,
     "font": "serif"

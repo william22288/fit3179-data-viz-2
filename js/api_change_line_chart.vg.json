@@ -3,6 +3,8 @@
   "description": "Interactive line chart showing API across stations with up to three selectable stations and year range filter, including annotations for maximum API per station.",
   "width": 800,
   "height": 400,
+  "padding": {"top": 0, "bottom": 5, "left": 160, "right": 10},
+  
   "data": {
     "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/2017_to_2022_Daily_API_across_Different_Stations(long).csv"
   },
@@ -82,9 +84,9 @@
       "bind": {
         "input": "range",
         "min": 2017,
-        "max": 2021,
+        "max": 2022,
         "step": 1,
-        "name": "Year to Begin"
+        "name": "Year to Begin:"
       }
     },
     {
@@ -95,7 +97,7 @@
         "min": 2017,
         "max": 2022,
         "step": 1,
-        "name": "Year to End"
+        "name": "Year to End:"
       }
     }
   ],

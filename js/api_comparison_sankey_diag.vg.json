@@ -1,11 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "width": 950,
-  "height": 600,
-  "padding": 10,
+  "height": 400,
+  "padding": {"top": 0, "bottom": 0, "left": 70, "right": 0},
   "title": {
-    "text": "Regional and Overall Average Air Pollution Index (API) from 2019 to 2022",
+    "text": ["Regional and Overall Average Air Pollution Index (API)", "from 2019 to 2022"],
     "anchor": "middle",
+    "align": "center",
     "fontSize": 20,
     "font": "serif",
     "fontWeight": "bold"
@@ -135,19 +136,19 @@
       "name": "yscaleLeft",
       "type": "point",
       "domain": {"data": "left_nodes", "field": "name"},
-      "range": [150, 480]
+      "range": [100, 410]
     },
     {
       "name": "yscaleRight",
       "type": "point",
       "domain": {"data": "right_nodes", "field": "name"},
-      "range": [150, 480]
+      "range": [100, 410]
     },
     {
       "name": "color",
       "type": "ordinal",
       "domain": ["Peninsular Malaysia", "Sabah", "Sarawak", "Malaysia"],
-      "range": ["#999999", "#E69F00", "#56B4E9", "#9370DB"]
+      "range": ["#BA55D3", "#c5b0d5", "#c49c94", "#9370DB"]
     },
     {
       "name": "widthScale",
@@ -224,7 +225,7 @@
       "encode": {
         "enter": {
           "x": {"signal": "xLeft"},
-          "y": {"value": 110},
+          "y": {"value": 60},
           "align": {"value": "center"},
           "baseline": {"value": "bottom"},
           "text": {"value": "Region"},
@@ -240,7 +241,7 @@
       "encode": {
         "enter": {
           "x": {"signal": "xRight"},
-          "y": {"value": 110},
+          "y": {"value": 60},
           "align": {"value": "center"},
           "baseline": {"value": "bottom"},
           "text": {"value": "Year"},

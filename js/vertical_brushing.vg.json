@@ -1,5 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "spacing": -200,
   "vconcat": [
     {
       "title": {
@@ -160,12 +161,14 @@
           "type": "quantitative",
           "title": "Population",
           "scale": {"domain": [100000, 800000], "range": [50, 1500]}
+          
         },
         "color": {
           "field": "AvgAPI",
           "type": "quantitative",
           "title": "Air Pollution Index",
           "scale": {"type": "threshold", "domain": [20, 40, 60, 80, 100], "range": ["#fee5d9","#fcbba1","#fc9272","#fb6a4a","#de2d26","#a50f15"]}
+          
 
         },
         "tooltip": [
@@ -186,7 +189,7 @@
         "font": "serif"
       },
       "width": 800,
-      "height": 200,
+      "height": 50,
       "data": {
         "url": "https://raw.githubusercontent.com/william22288/fit3179-data-viz-2/refs/heads/main/data/malaysia_monthly_average_API.csv"
       },
