@@ -88,7 +88,7 @@ h4 {
 }
 
 #header {
-  background: #f5f5f5;
+  background: #f0f0f0;
   padding: 2em 5em 3em 5em;
   display: flex;
   align-items: baseline;
@@ -334,7 +334,7 @@ section + section {
 
 footer {
   width: 100%;
-  background: #f5f5f5;
+  background: #f0f0f0;
   padding: 2.5em;
   text-align: center;
   font-family: "Inter", sans-serif;
