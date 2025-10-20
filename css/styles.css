@@ -18,7 +18,7 @@ body {
 h1 {
   color: #000;
   font-family: "Crimson Text";
-  font-size: 36px;
+  font-size: 46px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -79,7 +79,7 @@ h4 {
   margin-top: 50px;
   color: #000;
   font-family: Inter;
-  font-size: 24px;
+  font-size: 28px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -88,6 +88,7 @@ h4 {
 }
 
 #header {
+  background: #f5f5f5;
   padding: 2em 5em 3em 5em;
   display: flex;
   align-items: baseline;
@@ -102,8 +103,8 @@ h4 {
   color: #3e2f1c;
   border-bottom: 2px solid #978d6f;
   margin: 20px;
-  margin-bottom: 5px;
-  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   padding: 0 20px 20px;
 }
 
@@ -188,6 +189,15 @@ h4 {
   flex-direction: column;
 }
 
+.section {
+  padding: 0em 0;
+}
+
+section + section {
+  margin-top: 3em;
+}
+
+
 /* .visualisation {
   width: fit-content;
   min-height: 40vh;
@@ -217,7 +227,7 @@ h4 {
 } */
 
 .vega-bindings {
-  /* FIX: Ensure bindings wrap to prevent horizontal overflow/misalignment */
+  /* Ensure bindings wrap to prevent horizontal overflow/misalignment */
   display: flex;
   flex-wrap: wrap; 
   align-items: center;
@@ -225,9 +235,48 @@ h4 {
      which often helps align them with the chart visually. */
   justify-content: center; 
   gap: 24px;
-  font-size: 22px;
-  font-family: "Crimson Text";
+  font-size: 15px;
+  font-family: "Inter";
 }
+
+/* Target bindings for the API comparison chart only */
+#api_comparison .vega-bindings {
+  display: flex;
+  padding: 0.4em 2em 0.4em 0em;
+  flex-wrap: wrap;           /* allows wrapping to second line */
+  justify-content: center;   /* centers controls horizontally */
+  align-items: center;
+  gap: 15px;                 /* spacing between controls */
+  font-family: "Inter";
+  font-size: 15px;
+  margin-bottom: 10px;       /* spacing below controls */
+}
+
+/* All dropdowns and sliders share consistent padding and style */
+#api_comparison .vega-bindings input,
+#api_comparison .vega-bindings select {
+  all: unset;
+  padding: 0.4em 1.5em;
+  border: 2px solid #f0f0f0;
+  border-radius: 6px;
+  background-color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  transition: all 0.25s ease;
+}
+
+/* Keep labels neatly aligned */
+#api_comparison .vega-bindings {
+  flex: 0 1 auto;
+}
+
+/* Force the two year sliders (4th & 5th bindings) to a new centered row */
+#api_comparison .vega-bindings label:nth-of-type(4),
+#api_comparison .vega-bindings label:nth-of-type(5) {
+  flex-basis: 100%;
+  text-align: center;
+}
+
 
 
 
@@ -245,6 +294,7 @@ h4 {
   border: 2px solid #f0f0f0;
   border-radius: 6px;
   font-family: Inter;
+  font-size: 12px;
   transition: all 0.25s ease;
 }
 
@@ -288,7 +338,7 @@ footer {
   padding: 2.5em;
   text-align: center;
   font-family: "Inter", sans-serif;
-  font-size: 14px;
+  font-size: 10px;
   color: #333;
   border-top: 1px solid #ddd;
   line-height: 1.8; /* adds more space between lines */
@@ -382,9 +432,15 @@ section:not(.horizontal-brush-section) .text-container {
 .paragraph {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   font-weight: normal;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1.6;
   text-align: justify;
   color: #333; /* optional for better readability */
 }
+
+p {
+  font-size: 17px;
+}
+
+
 

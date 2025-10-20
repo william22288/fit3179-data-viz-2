@@ -4,7 +4,7 @@
   "height": 400,
   "padding": {"top": 0, "bottom": 0, "left": 70, "right": 0},
   "title": {
-    "text": ["Regional and Overall Average Air Pollution Index (API)", "from 2019 to 2022"],
+    "text": ["Regional and Overall Average Air Pollution Index (API)", "(2019-2022)"],
     "anchor": "middle",
     "align": "center",
     "fontSize": 20,
