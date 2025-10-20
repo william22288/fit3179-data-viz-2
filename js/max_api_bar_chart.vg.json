@@ -128,6 +128,7 @@
     "text": ["Maximum Air Pollution Index (API) Across Selected Monitoring Stations", "in 2020"],
     "anchor": "middle",
     "fontSize": 20,
+    "fontWeight": "bold",
     "font": "serif"
   }
 }

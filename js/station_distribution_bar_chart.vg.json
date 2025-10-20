@@ -51,6 +51,7 @@
   ],
   "anchor": "middle",
   "fontSize": 20,
+  "fontWeight": "bold",
   "font": "serif",
   "offset": 25
 },

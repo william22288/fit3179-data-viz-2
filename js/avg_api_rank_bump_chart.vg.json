@@ -127,6 +127,7 @@
   ],
   "title": {
     "text": ["Average Yearly Air Pollution Index (API) of States and Federal Territories", "in Malaysia (2017–2022)"],
+    "fontWeight": "bold",
     "font": "serif",
     "fontSize": 20,
     "anchor": "middle"

@@ -9,6 +9,7 @@
     "anchor": "middle",
     "fontSize": 20,
     "font": "serif",
+    "fontWeight": "bold",
     "offset": 5
   },
   "data": [

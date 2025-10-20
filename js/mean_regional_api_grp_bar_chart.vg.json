@@ -99,6 +99,7 @@
   "mark": {"type": "bar", "cornerRadiusTopLeft": 4, "cornerRadiusTopRight": 4},
   "title": {
     "text": "Average Air Pollution Index (API) by Region (2017-2022)",
+    "fontWeight": "bold",
     "font": "serif",
     "fontSize": 20,
     "anchor": "middle"
