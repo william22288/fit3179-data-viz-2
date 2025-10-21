@@ -242,7 +242,7 @@ section + section {
 /* Target bindings for the API comparison chart only */
 #api_comparison .vega-bindings {
   display: flex;
-  padding: 0.4em 2em 0.4em 0em;
+  padding: 0.4em 8rem 0.4em 0em;
   flex-wrap: wrap;           /* allows wrapping to second line */
   justify-content: center;   /* centers controls horizontally */
   align-items: center;
